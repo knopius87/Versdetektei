@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Die Versdetektei – Rhetorische Figuren</title>
+<meta name="description" content="Rhetorische Figuren in Gedichten lernen und erkennen – Jg. 10 und EF">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#faf6ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14171f" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Versdetektei">
+<style>
+:root{
+  --paper:#faf6ee; --card:#ffffff; --ink:#1d2433; --muted:#4a5263; --line:#d9d1c1;
+  --accent:#8a2a1b; --accent-ink:#ffffff; --ok:#1f6b4a; --ok-bg:#e3f2ea; --bad:#a1261b; --bad-bg:#fbe7e4;
+  --mark:#ffe08a; --mark-ink:#1d2433; --focus:#1756c4;
+  --verse:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --ui:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --fs:1.0625rem;
+}
+@media (prefers-color-scheme:dark){
+  :root{--paper:#14171f;--card:#1e2330;--ink:#eef0f5;--muted:#b6bccb;--line:#3a4152;
+  --accent:#ff9a85;--accent-ink:#1d1210;--ok:#7fdcae;--ok-bg:#163327;--bad:#ff9d93;--bad-bg:#3a1a18;
+  --mark:#6b5410;--mark-ink:#fff6d6;--focus:#8db7ff;}
+}
+html.gross{--fs:1.25rem}
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:var(--fs);line-height:1.55}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.skip{position:absolute;left:-999px;top:0;background:var(--card);padding:.5rem 1rem;z-index:9}
+.skip:focus{left:.5rem}
+header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
+.bar{max-width:46rem;margin:0 auto;display:flex;align-items:center;gap:.6rem;padding:.5rem 1rem}
+.logo{display:flex;align-items:center;gap:.5rem;font-weight:700;text-decoration:none;color:var(--ink);font-size:1.05em}
+.logo svg{width:38px;height:38px;flex:none}
+nav{max-width:46rem;margin:0 auto;display:flex;gap:.25rem;padding:0 .5rem .4rem;overflow-x:auto}
+nav button{flex:1;min-width:max-content}
+.tab{background:transparent;border:0;border-bottom:3px solid transparent;color:var(--muted);font:inherit;font-size:.95em;padding:.45rem .6rem;cursor:pointer;font-weight:600}
+.tab[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+main{max-width:46rem;margin:0 auto;padding:1rem 1rem 4rem}
+h1{font-size:1.5em;line-height:1.25;margin:.4rem 0 .6rem}
+h2{font-size:1.2em;margin:1.4rem 0 .5rem}
+h3{font-size:1.05em;margin:.2rem 0 .3rem}
+p{margin:.4rem 0 .8rem}
+.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem;margin:.75rem 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;font:inherit;font-weight:600;border-radius:10px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);padding:.65rem 1.1rem;cursor:pointer;min-height:48px;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.opts{display:grid;gap:.6rem;margin:.8rem 0;list-style:none;padding:0}
+.opt{width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:12px;padding:.75rem .9rem;cursor:pointer;min-height:52px;display:flex;gap:.7rem;align-items:flex-start}
+.opt .k{flex:none;display:inline-grid;place-items:center;width:1.8em;height:1.8em;border-radius:50%;border:2px solid var(--muted);font-weight:700;font-size:.85em;color:var(--muted)}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt.richtig{border-color:var(--ok);background:var(--ok-bg)}
+.opt.falsch{border-color:var(--bad);background:var(--bad-bg)}
+.opt[disabled]{cursor:default}
+.opt .tag{margin-left:auto;font-weight:700;font-size:.85em;white-space:nowrap}
+.verse{font-family:var(--verse);font-size:1.15em;line-height:1.6;background:var(--card);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.6rem 0}
+.verse .l{display:block}
+.verse .gap{display:block;height:.6em}
+.src{font-size:.9em;color:var(--muted);margin-top:.4rem}
+mark{background:var(--mark);color:var(--mark-ink);padding:0 .1em;border-radius:3px;box-shadow:0 2px 0 var(--accent)}
+.prompt{font-size:1.15em;font-weight:600}
+.feedback{border-radius:12px;padding:.9rem 1rem;margin:.8rem 0;border:2px solid}
+.feedback.ok{border-color:var(--ok);background:var(--ok-bg)}
+.feedback.no{border-color:var(--bad);background:var(--bad-bg)}
+.feedback h3{margin:0 0 .3rem}
+.progress{height:10px;border-radius:6px;background:var(--line);overflow:hidden}
+.progress>span{display:block;height:100%;background:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0}
+.chip{font:inherit;font-size:.92em;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:.35rem .8rem;cursor:pointer;min-height:40px}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+details{border-top:1px solid var(--line);padding:.5rem 0}
+details:first-of-type{border-top:0}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;align-items:center;gap:.5rem;min-height:44px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"▸";margin-left:auto;color:var(--muted)}
+details[open] summary::after{content:"▾"}
+.lupen{font-size:.85em;color:var(--muted);white-space:nowrap}
+.def{margin:.3rem 0}
+dl.fig{margin:.3rem 0 .6rem}
+dl.fig dt{font-weight:700;font-size:.85em;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-top:.5rem}
+dl.fig dd{margin:.1rem 0}
+.cat{display:flex;gap:.7rem;align-items:flex-start}
+.cat svg{flex:none;width:56px;height:56px}
+.bubble{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.6rem .8rem;position:relative}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.7rem}
+.stat b{display:block;font-size:1.5em}
+footer{max-width:46rem;margin:0 auto;padding:1rem;font-size:.85em;color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hint{font-size:.92em;color:var(--muted)}
+.warn{border-left:4px solid var(--accent);padding:.5rem .8rem;background:var(--card);border-radius:0 10px 10px 0}
+@media (prefers-reduced-motion:no-preference){.opt,.btn,.chip{transition:background .15s,border-color .15s}}
+@media (min-width:560px){.opts.two{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header>
+  <div class="bar">
+    <a class="logo" href="#start" data-go="start" aria-label="Die Versdetektei – Startseite">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#kater"/></svg>
+      <span>Die Versdetektei</span>
+    </a>
+  </div>
+  <nav aria-label="Bereiche">
+    <button class="tab" data-go="start">Start</button>
+    <button class="tab" data-go="handbuch">Handbuch</button>
+    <button class="tab" data-go="training">Training</button>
+    <button class="tab" data-go="ermittlung">Ermittlung</button>
+  </nav>
+</header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="kater" viewBox="0 0 64 64">
+    <!-- Kater Jambus: eigene Figur -->
+    <path d="M14 26 L12 8 L26 18 Z" fill="#3b3f4c"/>
+    <path d="M50 26 L52 8 L38 18 Z" fill="#3b3f4c"/>
+    <path d="M15 12 L17 21 L23 18 Z" fill="#e8a0a0"/>
+    <path d="M49 12 L47 21 L41 18 Z" fill="#e8a0a0"/>
+    <ellipse cx="32" cy="34" rx="21" ry="19" fill="#3b3f4c"/>
+    <ellipse cx="32" cy="41" rx="11" ry="8" fill="#f2efe8"/>
+    <ellipse cx="24" cy="31" rx="4.2" ry="5" fill="#f6d77a"/>
+    <ellipse cx="40" cy="31" rx="4.2" ry="5" fill="#f6d77a"/>
+    <ellipse cx="24" cy="32" rx="1.6" ry="3.6" fill="#1d2433"/>
+    <ellipse cx="40" cy="32" rx="1.6" ry="3.6" fill="#1d2433"/>
+    <path d="M30 38 h4 l-2 2.5 z" fill="#d77d7d"/>
+    <path d="M32 40.5 q-2 3 -5 2 M32 40.5 q2 3 5 2" stroke="#1d2433" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <path d="M18 39 h-9 M18 42 l-8 2 M46 39 h9 M46 42 l8 2" stroke="#f2efe8" stroke-width="1" stroke-linecap="round"/>
+    <circle cx="51" cy="50" r="7" fill="none" stroke="#c9a227" stroke-width="3"/>
+    <circle cx="51" cy="50" r="5.4" fill="#bfe3ff" fill-opacity=".55"/>
+    <path d="M46 55 l-6 6" stroke="#8a2a1b" stroke-width="4" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<main id="main" tabindex="-1"></main>
+<div id="live" class="sr" aria-live="polite"></div>
+<footer id="footer"></footer>
+
+<script>
+"use strict";
+/* =========================================================
+   FASSUNG: "oeffentlich" = nur gemeinfreie Texte (GitHub Pages)
+            "teams"       = zusätzlich geschützte Texte, nur für den Kurs
+   ========================================================= */
+const FASSUNG = "oeffentlich";
+const GROUPS = [{"id": "klang", "name": "Klang & Wiederholung"}, {"id": "satz", "name": "Satzbau"}, {"id": "bild", "name": "Sprachliche Bilder"}, {"id": "gegensatz", "name": "Gegensatz & Übertreibung"}];
+const FIGS = [{"id": "alliteration", "name": "Alliteration", "art": "die", "group": "klang", "def": "Mehrere benachbarte Wörter beginnen mit demselben Laut.", "bsp": "„Wir kamen mit Kind und Kegel.“", "tip": "Achte auf den Anfangslaut der Wörter – nicht auf den Reim am Versende."}, {"id": "anapher", "name": "Anapher", "art": "die", "group": "klang", "def": "Ein Wort oder mehrere Wörter werden am Anfang aufeinanderfolgender Verse oder Sätze wiederholt.", "bsp": "„Jeden Morgen der Wecker. Jeden Morgen der Bus. Jeden Morgen Mathe.“", "tip": "Steht das wiederholte Wort nicht am Vers- oder Satzanfang, ist es eine einfache Wiederholung."}, {"id": "wiederholung", "name": "Wiederholung", "art": "die", "group": "klang", "def": "Ein Wort oder Ausdruck kommt in gleicher oder ähnlicher Form mehrmals vor.", "bsp": "„Nein, nein und nochmals nein!“", "tip": "Bei der Wiederholung kehrt dasselbe Wort wieder. Bei der Tautologie sind es verschiedene Wörter mit gleicher Bedeutung."}, {"id": "tautologie", "name": "Tautologie", "art": "die", "group": "klang", "def": "Zwei (oder mehr) Wörter mit gleicher Bedeutung werden nebeneinandergestellt.", "bsp": "„Das ist nie und nimmer wahr.“", "tip": "Nicht dasselbe Wort zweimal (das wäre eine Wiederholung), sondern zwei Wörter, die dasselbe bedeuten."}, {"id": "parallelismus", "name": "Parallelismus", "art": "der", "group": "satz", "def": "Aufeinanderfolgende Sätze oder Verse haben den gleichen Satzbau.", "bsp": "„Der Himmel ist blau, die Wiese ist grün.“", "tip": "Gleiche Reihenfolge: A B / A B. Ist die Reihenfolge über Kreuz (A B / B A), ist es ein Chiasmus."}, {"id": "chiasmus", "name": "Chiasmus", "art": "der", "group": "satz", "def": "Satzglieder werden symmetrisch über Kreuz gestellt (A B / B A).", "bsp": "„Wir essen, um zu leben – wir leben nicht, um zu essen.“", "tip": "Zeichne gedanklich ein X zwischen die beiden Hälften: Tauschen die Teile ihre Plätze?"}, {"id": "inversion", "name": "Inversion", "art": "die", "group": "satz", "def": "Die übliche Wortstellung im Satz wird umgekehrt.", "bsp": "„Groß war die Freude.“ (statt: Die Freude war groß.)", "tip": "Bilde den ‚normalen‘ Satz. Weicht der Vers davon ab, liegt eine Inversion vor."}, {"id": "ellipse", "name": "Ellipse", "art": "die", "group": "satz", "def": "Ein Satz ist unvollständig: Ein Satzteil (oft das Verb) fehlt.", "bsp": "„Ende gut, alles gut.“", "tip": "Frage dich: Fehlt etwas, damit ein vollständiger Satz entsteht?"}, {"id": "klimax", "name": "Klimax", "art": "die", "group": "satz", "def": "Eine Reihe von Wörtern oder Gedanken steigert sich (häufig dreigliedrig).", "bsp": "„Erst gut, dann besser, am Ende großartig.“", "tip": "Nicht nur eine Aufzählung: Die Glieder müssen stärker werden."}, {"id": "rhetorische_frage", "name": "Rhetorische Frage", "art": "die", "group": "satz", "def": "Eine scheinbare Frage, deren Antwort alle schon kennen; eigentlich eine Behauptung.", "bsp": "„Wer steht schon gern um sechs Uhr auf?“", "tip": "Prüfe: Erwartet der Sprecher wirklich eine Antwort?"}, {"id": "vergleich", "name": "Vergleich", "art": "der", "group": "bild", "def": "Zwei Gegenstände oder Bereiche werden durch ein Vergleichswort (z. B. wie, als ob) miteinander verbunden.", "bsp": "„Sie schläft wie ein Stein.“", "tip": "Gibt es ein Vergleichswort (wie, als, als ob)? Dann Vergleich – ohne Vergleichswort eher Metapher."}, {"id": "metapher", "name": "Metapher", "art": "die", "group": "bild", "def": "Ein Wort wird nicht wörtlich, sondern in einem übertragenen (bildlichen) Sinn gebraucht.", "bsp": "„Sie hat ein Herz aus Gold.“", "tip": "Kein Vergleichswort: Das Bild steht direkt an der Stelle der Sache."}, {"id": "personifikation", "name": "Personifikation", "art": "die", "group": "bild", "def": "Gegenstände, Begriffe, Tiere oder Ideen werden vermenschlicht.", "bsp": "„Mein Handy schreit nach dem Ladekabel.“", "tip": "Etwas Nichtmenschliches handelt, spricht oder fühlt wie ein Mensch."}, {"id": "symbol", "name": "Symbol", "art": "das", "group": "bild", "def": "Ein Sinnbild: Ein konkretes Ding verweist auf etwas Allgemeines.", "bsp": "„Ein Ring steht für Treue.“", "tip": "Das Ding ist im Text auch wörtlich vorhanden (Posthorn, Nachtigall) und weist zusätzlich auf etwas Allgemeines – oft kulturell festgelegt."}, {"id": "synaesthesie", "name": "Synästhesie", "art": "die", "group": "bild", "def": "Eindrücke verschiedener Sinne werden miteinander verbunden.", "bsp": "„Er hat eine warme Stimme.“ (Fühlen + Hören)", "tip": "Zähle die Sinne: Werden zwei verschiedene Sinne in einem Ausdruck vermischt?"}, {"id": "neologismus", "name": "Neologismus", "art": "der", "group": "bild", "def": "Eine Wortneuschöpfung: ein neu gebildetes Wort.", "bsp": "„Er ist ein richtiger Handyzombie.“", "tip": "Würdest du das Wort so im Wörterbuch finden?"}, {"id": "antithese", "name": "Antithese", "art": "die", "group": "gegensatz", "def": "Gegensätzliche Gedanken oder Begriffe werden einander gegenübergestellt.", "bsp": "„Die Ferien sind kurz, das Schuljahr ist lang.“", "tip": "Die Gegensätze stehen nebeneinander, meist auf zwei Satzteile verteilt. Verschmelzen sie in einer Wortgruppe, ist es ein Oxymoron."}, {"id": "oxymoron", "name": "Oxymoron", "art": "das", "group": "gegensatz", "def": "Zwei Vorstellungen, die sich ausschließen, werden zu einem Ausdruck verbunden.", "bsp": "„bittersüß“, „ein alter Knabe“", "tip": "Der Widerspruch steckt in einer einzigen Wortgruppe (z. B. Adjektiv + Nomen)."}, {"id": "paradoxon", "name": "Paradoxon", "art": "das", "group": "gegensatz", "def": "Ein Scheinwiderspruch in einer Aussage, der auf den zweiten Blick Sinn ergibt.", "bsp": "„Weniger ist mehr.“", "tip": "Eine ganze Aussage widerspricht sich scheinbar – nicht nur zwei Wörter."}, {"id": "ironie", "name": "Ironie", "art": "die", "group": "gegensatz", "def": "Eine unwahre Behauptung: Gemeint ist das Gegenteil des Gesagten.", "bsp": "„Na super, schon wieder Regen.“", "tip": "Kann das Gesagte im Zusammenhang wirklich so gemeint sein?"}, {"id": "hyperbel", "name": "Hyperbel", "art": "die", "group": "gegensatz", "def": "Eine starke Übertreibung.", "bsp": "„Das habe ich dir schon tausendmal gesagt!“", "tip": "Wörtlich genommen unmöglich oder maßlos übertrieben?"}, {"id": "euphemismus", "name": "Euphemismus", "art": "der", "group": "gegensatz", "def": "Eine Beschönigung: Etwas Unangenehmes wird freundlicher ausgedrückt.", "bsp": "„Meine Noten sind noch ausbaufähig.“", "tip": "Wird etwas Unangenehmes absichtlich milder benannt?"}];
+const ITEMS = [{"fig": "alliteration", "au": "Otto Julius Bierbaum", "ti": "Traum durch die Dämmerung", "yr": "", "lines": ["Weite Wiesen im Dämmergrau;"], "mark": ["Weite Wiesen"], "also": [], "ex": "„Weite Wiesen“: zwei benachbarte Wörter beginnen mit demselben Laut (W). Der Klang verbindet die Wörter und verlangsamt den Vers.", "id": "c000", "prot": false}, {"fig": "alliteration", "au": "Adelbert von Chamisso", "ti": "Frühling und Herbst", "yr": "1826", "lines": ["Und alles lebt und liebt und singt", "Und preist den Frühling wunderbar,", "Den Frühling, der die Freude bringt;", "Ich aber bleibe stumm und starr."], "mark": ["stumm und starr"], "also": ["antithese", "wiederholung"], "ex": "„stumm und starr“: gleicher Anlaut (st). Der harte Klang unterstreicht die Erstarrung des Ichs.", "id": "c001", "prot": false}, {"fig": "alliteration", "au": "Clemens Brentano", "ti": "„Hörst du wie die Brunnen rauschen …“ (ohne Titel)", "yr": "1811", "lines": ["Selig, wen die Wolken wiegen,", "Wem der Mond ein Schlaflied singt,"], "mark": ["Wolken wiegen"], "also": ["personifikation", "anapher"], "ex": "„Wolken wiegen“: gleicher Anlaut (W) bei benachbarten Wörtern; der weiche Klang passt zum Wiegen.", "id": "c002", "prot": false}, {"fig": "alliteration", "au": "Joseph von Eichendorff", "ti": "Der frohe Wandersmann", "yr": "1817", "lines": ["Wem Gott will rechte Gunst erweisen,", "Den schickt er in die weite Welt;"], "mark": ["weite Welt"], "also": ["inversion"], "ex": "„weite Welt“: zwei benachbarte Wörter mit gleichem Anlaut (W).", "id": "c003", "prot": false}, {"fig": "anapher", "au": "Heinrich Heine", "ti": "„Und wüßten’s die Blumen, die kleinen …“ (ohne Titel)", "yr": "1822–23", "lines": ["Und wüßten’s die Blumen, die kleinen,", "Wie tief verwundet mein Herz,", "…", "Und wüßten’s die Nachtigallen,", "Wie ich so traurig und krank,"], "mark": ["Und wüßten’s"], "also": ["wiederholung", "parallelismus"], "ex": "„Und wüßten’s …“ steht wiederholt am Anfang von Versen bzw. Strophen – das ist eine Anapher.", "id": "c004", "prot": false}, {"fig": "anapher", "au": "Adelbert von Chamisso", "ti": "Lied", "yr": "1810", "lines": ["Kann nicht reden, kann nicht schweigen,", "Kann nicht sagen, wie mir ist."], "mark": ["Kann nicht"], "also": ["parallelismus", "wiederholung", "antithese"], "ex": "„Kann nicht …“ eröffnet beide Verse. Die Anapher macht die Hilflosigkeit des Ichs fast hörbar.", "id": "c005", "prot": false}, {"fig": "anapher", "au": "Achim von Arnim", "ti": "„Wär’ mir Lautenspiel nicht blieben …“ (ohne Titel)", "yr": "1805", "lines": ["Dieses Rauschen in den Wellen,", "Dieses Mondes früh Erhellen,", "Dieser Bäume tausend Zungen."], "mark": ["Dieses", "Dieses", "Dieser"], "also": ["parallelismus", "personifikation", "ellipse"], "ex": "Drei Verse beginnen mit „Dieses/Dieser“: eine Anapher, die die Eindrücke aneinanderreiht.", "id": "c006", "prot": false}, {"fig": "anapher", "au": "Heinrich Heine", "ti": "„Im wunderschönen Monat Mai …“ (ohne Titel)", "yr": "1822–23", "lines": ["Im wunderschönen Monat Mai,", "Als alle Knospen sprangen,", "…", "Im wunderschönen Monat Mai,", "Als alle Vögel sangen,"], "mark": ["Im wunderschönen Monat Mai,"], "also": ["parallelismus", "wiederholung"], "ex": "Beide Strophen beginnen mit demselben Vers – eine Anapher.", "id": "c007", "prot": false}, {"fig": "wiederholung", "au": "Ludwig Uhland", "ti": "Frühlingsglaube", "yr": "1812", "lines": ["Nun, armes Herze, sei nicht bang!", "Nun muß sich alles, alles wenden."], "mark": ["alles, alles"], "also": ["anapher"], "ex": "„alles, alles“: Das Wort wird unmittelbar wiederholt und dadurch nachdrücklich betont.", "id": "c008", "prot": false}, {"fig": "wiederholung", "au": "Achim von Arnim", "ti": "„Nur Wehmut, Wehmut überall …“ (ohne Titel)", "yr": "1841", "lines": ["Nur Wehmut, Wehmut überall", "Wohin die Sonne scheint,"], "mark": ["Wehmut, Wehmut"], "also": [], "ex": "Die Doppelung von „Wehmut“ lässt das Gefühl alles durchdringen.", "id": "c009", "prot": false}, {"fig": "wiederholung", "au": "Heinrich Heine", "ti": "„Und wüßten’s die Blumen, die kleinen …“ (ohne Titel)", "yr": "1822–23", "lines": ["Sie hat ja selbst zerrissen,", "Zerrissen mir das Herz."], "mark": ["zerrissen,", "Zerrissen"], "also": [], "ex": "„zerrissen“ kehrt sofort wieder – am Versende und am nächsten Versanfang. Der Schmerz wird nachdrücklich herausgestellt.", "id": "c010", "prot": false}, {"fig": "wiederholung", "au": "Clemens Brentano", "ti": "„Hörst du wie die Brunnen rauschen …“ (ohne Titel)", "yr": "1811", "lines": ["Hörst du wie die Grille zirpt?", "Stille, stille, laß uns lauschen,"], "mark": ["Stille, stille"], "also": ["anapher"], "ex": "„Stille, stille“: Die Wiederholung wirkt beschwörend und flüsternd.", "id": "c011", "prot": false}, {"fig": "tautologie", "au": "Otto Julius Bierbaum", "ti": "Traum durch die Dämmerung", "yr": "", "lines": ["Durch Dämmergrau in der Liebe Land;", "Ich gehe nicht schnell, ich eile nicht;"], "mark": ["Ich gehe nicht schnell, ich eile nicht"], "also": ["parallelismus"], "ex": "„nicht schnell gehen“ und „nicht eilen“ sagen dasselbe. Die Doppelung verlangsamt den Vers – wie den Gang.", "id": "c012", "prot": false}, {"fig": "parallelismus", "au": "Hugo von Hofmannsthal", "ti": "Die Beiden", "yr": "", "lines": ["So leicht und sicher war ihr Gang,", "…", "So leicht und fest war seine Hand:"], "mark": ["So leicht und sicher war ihr Gang", "So leicht und fest war seine Hand"], "also": ["anapher"], "ex": "Gleicher Satzbau für sie und ihn: Die Parallele zeigt, wie ähnlich sicher beide sind – bevor sie beim Begegnen zittern.", "id": "c013", "prot": false}, {"fig": "parallelismus", "au": "Conrad Ferdinand Meyer", "ti": "Zwei Segel", "yr": "", "lines": ["Begehrt eins zu hasten,", "Das andre geht schnell,", "Verlangt eins zu rasten,", "Ruht auch sein Gesell."], "mark": ["Begehrt eins zu hasten,", "Verlangt eins zu rasten,"], "also": [], "ex": "Die Verspaare sind gleich gebaut. Der Satzbau bildet ab, wie die beiden Segel sich im Gleichklang bewegen.", "id": "c014", "prot": false}, {"au": "Eduard Mörike", "ti": "Ein Stündlein wohl vor Tag", "yr": "", "fig": "parallelismus", "lines": ["O weh! nicht weiter sag!", "O still! nichts hören mag!"], "mark": ["O weh! nicht weiter sag!", "O still! nichts hören mag!"], "also": ["anapher", "ellipse"], "ex": "Zwei Verse, genau gleich gebaut: Ausruf + kurzer Befehl. Der Parallelismus macht die abwehrende Panik hörbar.", "id": "c015", "prot": false}, {"fig": "chiasmus", "au": "Theodor Fontane", "ti": "Im Garten", "yr": "", "lines": ["Ich reichte dir die Beeren,", "Und du reichtest mir deinen Mund."], "mark": ["Ich", "dir", "du", "mir"], "also": ["parallelismus"], "ex": "Ich – dir / du – mir: Die Personen stehen über Kreuz (A B / B A). Die Überkreuzstellung spiegelt das gegenseitige Geben.", "id": "c017", "prot": false}, {"au": "Theodor Storm", "ti": "Oktoberlied", "yr": "1848", "fig": "chiasmus", "lines": ["Der Nebel steigt, es fällt das Laub;", "Schenk’ ein den Wein, den holden!"], "mark": ["Der Nebel", "steigt", "fällt", "das Laub"], "also": ["inversion"], "ex": "Nebel – steigt / fällt – Laub: Subjekt und Verb stehen über Kreuz (A B / B A). Die Spiegelung zeigt die Gegenbewegung von Aufsteigen und Fallen.", "id": "c018", "prot": false}, {"fig": "inversion", "au": "Joseph von Eichendorff", "ti": "Sehnsucht", "yr": "1834", "lines": ["Es schienen so golden die Sterne,", "Am Fenster ich einsam stand"], "mark": ["Am Fenster ich einsam stand"], "also": [], "ex": "Üblich wäre „Ich stand einsam am Fenster“. Die umgestellte Wortfolge rückt den Ort und das Einsamsein nach vorn.", "id": "c020", "prot": false}, {"fig": "inversion", "au": "Joseph von Eichendorff", "ti": "Sehnsucht", "yr": "1834", "lines": ["Das Herz mir im Leib entbrennte,", "Da hab’ ich mir heimlich gedacht:"], "mark": ["Das Herz mir im Leib entbrennte"], "also": ["metapher"], "ex": "Üblich wäre „Das Herz entbrannte mir im Leib“. Das Verb rückt ans Versende.", "id": "c021", "prot": false}, {"fig": "inversion", "au": "Wilhelm Müller", "ti": "Erlösung", "yr": "1824", "lines": ["Wenn des Frühlings Sonnenstrahl", "Reißt der Wolken Zelt entzwei."], "mark": ["Reißt der Wolken Zelt entzwei"], "also": ["metapher"], "ex": "Im Nebensatz stünde das Verb normalerweise am Ende („… entzweireißt“). Hier ist die Wortfolge umgekehrt.", "id": "c022", "prot": false}, {"fig": "ellipse", "au": "Ludwig Tieck", "ti": "Ungewisse Hoffnung", "yr": "1798", "lines": ["Warum Zittern? Warum Zagen?", "Träges Weilen?"], "mark": ["Träges Weilen?"], "also": ["anapher", "alliteration", "rhetorische_frage"], "ex": "„Träges Weilen?“ ist kein vollständiger Satz – das Verb fehlt. Die Ellipse wirkt drängend und knapp.", "id": "c023", "prot": false}, {"fig": "ellipse", "au": "Adelbert von Chamisso", "ti": "Winter", "yr": "1811", "lines": ["Liebe, Lebenswogen,", "Sterne, Blumenlust!"], "mark": ["Liebe, Lebenswogen,", "Sterne, Blumenlust!"], "also": ["alliteration", "metapher"], "ex": "Nur Substantive, kein Verb: Die Erinnerungen werden stichwortartig aufgerufen.", "id": "c024", "prot": false}, {"fig": "ellipse", "au": "Joseph von Eichendorff", "ti": "Frische Fahrt", "yr": "1810", "lines": ["Waldwärts Hörnerklang geschossen,", "Mut’ger Augen lichter Schein;"], "mark": ["Mut’ger Augen lichter Schein;"], "also": ["inversion", "metapher"], "ex": "Kein vollständiger Satz, das finite Verb fehlt – die Eindrücke folgen Schlag auf Schlag.", "id": "c025", "prot": false}, {"fig": "ellipse", "au": "Ludwig Tieck", "ti": "Sehnen nach Italien", "yr": "1797", "lines": ["Dann ohne Säumen,", "Nach langen Träumen,", "Nach tiefer Ruh,", "Durch Wies’ und Wälder,", "Durch blüh’nde Felder", "Der Heimat zu!"], "mark": ["Der Heimat zu!"], "also": ["anapher", "parallelismus", "alliteration"], "ex": "Die ganze Strophe kommt ohne Verb aus: Die Ellipse erzeugt Tempo – wie eine Reise ohne Halt.", "id": "c026", "prot": false}, {"fig": "klimax", "au": "Clemens Brentano", "ti": "„Hörst du wie die Brunnen rauschen …“ (ohne Titel)", "yr": "1811", "lines": ["Schlafe, träume, flieg, ich wecke", "Bald dich auf und bin beglückt."], "mark": ["Schlafe, träume, flieg"], "also": ["ellipse"], "ex": "Schlafen – träumen – fliegen: drei Glieder, die sich steigern, vom Ruhen bis zum Schweben.", "id": "c027", "prot": false}, {"fig": "klimax", "au": "Adelbert von Chamisso", "ti": "Winter", "yr": "1811", "lines": ["Bin so alt geworden,", "Alt und schwach und blind,"], "mark": ["Alt und schwach und blind"], "also": ["wiederholung"], "ex": "alt – schwach – blind: dreigliedrige Steigerung des Verfalls.", "id": "c028", "prot": false}, {"fig": "klimax", "au": "Adelbert von Chamisso", "ti": "Frühling und Herbst", "yr": "1826", "lines": ["Und alles lebt und liebt und singt", "Und preist den Frühling wunderbar,"], "mark": ["lebt und liebt und singt"], "also": ["alliteration"], "ex": "leben – lieben – singen: Die Freude der Natur steigert sich in drei Schritten.", "id": "c029", "prot": false}, {"fig": "rhetorische_frage", "au": "Joseph von Eichendorff", "ti": "Der frohe Wandersmann", "yr": "1817", "lines": ["Die Lerchen schwirren hoch vor Lust,", "Was sollt’ ich nicht mit ihnen singen", "Aus voller Kehl’ und frischer Brust?"], "mark": ["Was sollt’ ich nicht mit ihnen singen", "Aus voller Kehl’ und frischer Brust?"], "also": [], "ex": "Niemand erwartet eine Antwort – die Frage bedeutet: „Natürlich singe ich mit!“", "id": "c030", "prot": false}, {"fig": "rhetorische_frage", "au": "Joseph von Eichendorff", "ti": "Anklänge", "yr": "1808", "lines": ["Sind die Farben denn nicht Töne,", "Und die Töne bunte Schwingen?"], "mark": ["Sind die Farben denn nicht Töne,", "Und die Töne bunte Schwingen?"], "also": ["synaesthesie", "metapher"], "ex": "Die Frage ist eine versteckte Behauptung: Farben und Töne gehören zusammen.", "id": "c031", "prot": false}, {"fig": "rhetorische_frage", "au": "Adelbert von Chamisso", "ti": "Auf der Wanderschaft", "yr": "1823", "lines": ["Was singt ihr, ihr Vögel, im Morgenlicht?", "Ihr wißt nicht, wie scheiden tut!"], "mark": ["Was singt ihr, ihr Vögel, im Morgenlicht?"], "also": ["personifikation"], "ex": "Das Ich will keine Auskunft – die Frage ist ein Vorwurf an die unbeschwerten Vögel.", "id": "c032", "prot": false}, {"fig": "vergleich", "au": "Achim von Arnim", "ti": "Abendempfindung", "yr": "1808", "lines": ["Und die Schwalben, wie Gespenster", "Schießen pfeilschnell kreuz und quer."], "mark": ["wie Gespenster"], "also": [], "ex": "Schwalben und Gespenster werden mit „wie“ verbunden: Der Abend wirkt unheimlich.", "id": "c033", "prot": false}, {"fig": "vergleich", "au": "Rainer Maria Rilke", "ti": "Die Liebende", "yr": "", "lines": ["meine Stille war wie eines Steines,", "über den der Bach sein Murmeln zieht."], "mark": ["wie eines Steines"], "also": ["personifikation"], "ex": "Die eigene Stille wird mit „wie“ mit einem Stein im Bach verglichen: unberührt, unbewegt.", "id": "c034", "prot": false}, {"fig": "vergleich", "au": "Eduard Mörike", "ti": "Ein Stündlein wohl vor Tag", "yr": "", "lines": ["– Ach, Lieb und Treu ist wie ein Traum", "Ein Stündlein wohl vor Tag."], "mark": ["wie ein Traum"], "also": [], "ex": "Liebe und Treue werden mit „wie“ an einen Traum gebunden: schön, aber flüchtig.", "id": "c035", "prot": false}, {"au": "Rainer Maria Rilke", "ti": "Liebes-Lied", "yr": "1907", "fig": "vergleich", "lines": ["Doch alles was uns anrührt, dich und mich,", "nimmt uns zusammen wie ein Bogenstrich,", "der aus zwei Saiten eine Stimme zieht."], "mark": ["wie ein Bogenstrich"], "also": ["metapher"], "ex": "Die Liebenden werden mit „wie“ mit zwei Saiten verglichen, die ein Bogenstrich zu einem einzigen Ton verbindet.", "id": "c036", "prot": false}, {"au": "Kurt Tucholsky", "ti": "Sie, zu ihm", "yr": "", "fig": "vergleich", "lines": ["Mensch, wie ein warmer Frühlingsregen", "so hüllte Zärtlichkeit mich ein!"], "mark": ["wie ein warmer Frühlingsregen"], "also": ["inversion"], "ex": "Die Zärtlichkeit, die sie sich wünscht, wird mit „wie“ mit einem warmen Frühlingsregen verglichen: sanft, umhüllend, belebend.", "id": "c038", "prot": false}, {"fig": "metapher", "au": "Adelbert von Chamisso", "ti": "Die Müllerin", "yr": "1822", "lines": ["Und bin ich verarmt und betrogen –", "Die Schwüre, die waren nur Spreu."], "mark": ["nur Spreu"], "also": [], "ex": "Spreu ist wertloser Abfall beim Dreschen. Ohne „wie“ wird das Wort übertragen: Die Schwüre waren nichts wert.", "id": "c039", "prot": false}, {"fig": "metapher", "au": "Wilhelm Müller", "ti": "Erlösung", "yr": "1824", "lines": ["Wie dem Fische wird zu Mut,", "Wenn des Flusses Rinde springt,"], "mark": ["des Flusses Rinde"], "also": ["personifikation"], "ex": "„Rinde“ meint hier die Eisdecke – das Wort wird im übertragenen Sinn gebraucht.", "id": "c040", "prot": false}, {"fig": "metapher", "au": "Ricarda Huch", "ti": "„Was für ein Feuer, o was für ein Feuer …“ (ohne Titel)", "yr": "", "lines": ["Die Augen, die mich anschaun, sind zwei Kerzen,", "Die Lippen, die mich küssen, sind zwei Flammen,"], "mark": ["sind zwei Kerzen", "sind zwei Flammen"], "also": ["parallelismus", "anapher"], "ex": "Augen „sind“ Kerzen, Lippen „sind“ Flammen – ohne Vergleichswort: Metaphern für leuchtende, brennende Liebe.", "id": "c041", "prot": false}, {"fig": "metapher", "au": "Joseph von Eichendorff", "ti": "Mondnacht", "yr": "1830er Jahre", "lines": ["Und meine Seele spannte", "Weit ihre Flügel aus,"], "mark": ["ihre Flügel"], "also": ["personifikation"], "ex": "Die Seele hat keine Flügel; das Wort wird übertragen gebraucht – für Befreiung und Aufschwung.", "id": "c042", "prot": false}, {"fig": "personifikation", "au": "Ludwig Tieck", "ti": "Ungewisse Hoffnung", "yr": "1798", "lines": ["Treibt das Herz; durch blühnde Linden", "Lächeln dir die Sterne."], "mark": ["Lächeln dir die Sterne"], "also": ["inversion"], "ex": "Sterne lächeln wie Menschen – die Natur scheint dem Ich zuzustimmen.", "id": "c046", "prot": false}, {"fig": "personifikation", "au": "Ludwig Uhland", "ti": "Frühlingsglaube", "yr": "1812", "lines": ["Die linden Lüfte sind erwacht.", "Sie säuseln und weben Tag und Nacht,", "Sie schaffen an allen Enden."], "mark": ["sind erwacht", "Sie schaffen an allen Enden"], "also": ["anapher", "alliteration"], "ex": "Die Lüfte erwachen und „schaffen“ – sie handeln wie Menschen. Der Frühling wird als tätige Kraft erlebt.", "id": "c047", "prot": false}, {"fig": "personifikation", "au": "Joseph von Eichendorff", "ti": "Lockung", "yr": "1834", "lines": ["Sie erwachen alle wieder", "Nachts in Waldeseinsamkeit,", "Wenn die Bäume träumend lauschen"], "mark": ["die Bäume träumend lauschen"], "also": [], "ex": "Bäume träumen und lauschen – menschliche Tätigkeiten machen die Natur geheimnisvoll belebt.", "id": "c048", "prot": false}, {"fig": "personifikation", "au": "Adelbert von Chamisso", "ti": "Die Müllerin", "yr": "1822", "lines": ["Noch hat mich der Wind nicht belogen,", "Der Wind, der blieb mir treu:"], "mark": ["Der Wind, der blieb mir treu"], "also": ["wiederholung"], "ex": "Der Wind ist „treu“ und „lügt nicht“ – er wird wie ein Mensch beschrieben, im bitteren Kontrast zum untreuen Geliebten.", "id": "c049", "prot": false}, {"fig": "symbol", "au": "Joseph von Eichendorff", "ti": "Sehnsucht", "yr": "1834", "lines": ["Und hörte aus weiter Ferne", "Ein Posthorn im stillen Land."], "mark": ["Ein Posthorn"], "also": [], "ex": "Das Posthorn kündigt die Postkutsche an. In der Romantik steht es für Fernweh und Aufbruch.", "id": "c051", "prot": false}, {"fig": "symbol", "au": "Clemens Brentano", "ti": "Der Spinnerin Nachtlied", "yr": "1802", "lines": ["Als wir zusammen waren", "Da sang die Nachtigall", "Nun mahnet mich ihr Schall", "Daß du von mir gefahren."], "mark": ["die Nachtigall"], "also": [], "ex": "Die Nachtigall ist ein traditionelles Sinnbild der Liebe – hier der verlorenen.", "id": "c052", "prot": false}, {"fig": "symbol", "au": "Adelbert von Chamisso", "ti": "Winter", "yr": "1811", "lines": ["Und es ist zerronnen,", "Was ein Traum nur war;", "Winter ist gekommen,", "Bleichend mir das Haar."], "mark": ["Winter ist gekommen"], "also": ["metapher"], "ex": "Der Winter steht für das Alter: Ein konkretes Bild verweist auf etwas Allgemeines.", "id": "c053", "prot": false}, {"fig": "synaesthesie", "au": "Joseph von Eichendorff", "ti": "Frische Fahrt", "yr": "1810", "lines": ["Laue Luft kommt blau geflossen,", "Frühling, Frühling soll es sein!"], "mark": ["Laue Luft kommt blau geflossen"], "also": ["alliteration", "wiederholung", "metapher"], "ex": "Die Luft wird gefühlt („lau“) und zugleich gesehen („blau“): zwei Sinne verschmelzen.", "id": "c054", "prot": false}, {"fig": "synaesthesie", "au": "Joseph von Eichendorff", "ti": "Die zwei Gesellen", "yr": "1818", "lines": ["Verlockend’ Sirenen, und zogen", "Ihn in der buhlenden Wogen", "Farbig klingenden Schlund."], "mark": ["Farbig klingenden"], "also": ["personifikation"], "ex": "„farbig klingend“: Sehen und Hören werden verbunden.", "id": "c055", "prot": false}, {"fig": "synaesthesie", "au": "Joseph von Eichendorff", "ti": "Anklänge", "yr": "1808", "lines": ["Sind die Farben denn nicht Töne,", "Und die Töne bunte Schwingen?"], "mark": ["Farben", "Töne", "bunte"], "also": ["rhetorische_frage", "metapher"], "ex": "Farben werden zu Tönen, Töne werden bunt – Gesichts- und Gehörsinn fließen ineinander.", "id": "c056", "prot": false}, {"fig": "neologismus", "au": "Else Lasker-Schüler", "ti": "Ein alter Tibetteppich", "yr": "", "lines": ["Unsere Füße ruhen auf der Kostbarkeit,", "Maschentausendabertausendweit."], "mark": ["Maschentausendabertausendweit"], "also": ["hyperbel"], "ex": "Ein neu gebildetes Wort: Masche + tausendabertausend + weit. Es lässt das Muster unendlich erscheinen.", "id": "c057", "prot": false}, {"fig": "neologismus", "au": "Heinrich Heine", "ti": "Abenddämmerung", "yr": "1825–26", "lines": ["Ein Lachen und Murmeln, Seufzen und Sausen,", "Dazwischen ein wiegenliedheimliches Singen –"], "mark": ["wiegenliedheimliches"], "also": ["alliteration"], "ex": "„wiegenliedheimlich“ gibt es im Wörterbuch nicht; Heine verschmilzt zwei Eindrücke zu einem neuen Wort.", "id": "c058", "prot": false}, {"fig": "neologismus", "au": "Heinrich Heine", "ti": "Abenddämmerung", "yr": "1825–26", "lines": ["Am blassen Meeresstrande", "Saß ich gedankenbekümmert und einsam."], "mark": ["gedankenbekümmert"], "also": [], "ex": "„gedankenbekümmert“ ist eine Wortneuschöpfung aus „Gedanken“ und „bekümmert“.", "id": "c059", "prot": false}, {"fig": "antithese", "au": "Karoline von Günderode", "ti": "Der Kuß im Traume", "yr": "1802", "lines": ["Weil nur die Nacht so süßen Balsam haucht.", "", "Der Tag ist karg an liebesüßen Wonnen,"], "mark": ["die Nacht", "Der Tag"], "also": ["metapher", "personifikation"], "ex": "Nacht und Tag werden einander gegenübergestellt: Die Nacht schenkt Liebe, der Tag ist „karg“.", "id": "c061", "prot": false}, {"fig": "antithese", "au": "Joseph von Eichendorff", "ti": "Wehmut", "yr": "1812", "lines": ["Ich kann wohl manchmal singen,", "Als ob ich fröhlich sei,", "Doch heimlich Tränen dringen,"], "mark": ["fröhlich", "Tränen"], "also": ["vergleich"], "ex": "Fröhlicher Gesang nach außen – heimliche Tränen innen: Gegensätze werden gegenübergestellt.", "id": "c062", "prot": false}, {"fig": "antithese", "au": "Adelbert von Chamisso", "ti": "Winter", "yr": "1811", "lines": ["In den jungen Tagen", "Hatt’ ich frischen Mut,", "…", "Bin so alt geworden,", "Alt und schwach und blind,"], "mark": ["jungen Tagen", "alt geworden"], "also": ["klimax", "wiederholung"], "ex": "Jugend und Alter, Kraft und Schwäche stehen sich gegenüber.", "id": "c063", "prot": false}, {"fig": "antithese", "au": "Wilhelm Müller", "ti": "Gefrorene Tränen", "yr": "1822", "lines": ["Daß ihr erstarrt zu Eise,", "Wie kühler Morgentau?", "", "Und dringt doch aus der Quelle", "Der Brust so glühend heiß,"], "mark": ["erstarrt zu Eise", "glühend heiß"], "also": ["vergleich", "metapher", "paradoxon"], "ex": "Eis gegen Glut: kalt und heiß werden einander entgegengesetzt.", "id": "c064", "prot": false}, {"fig": "oxymoron", "au": "Karoline von Günderode", "ti": "Liebe", "yr": "1799", "lines": ["O reiche Armut! Gebend, seliges Empfangen!"], "mark": ["reiche Armut"], "also": ["antithese", "paradoxon"], "ex": "„reich“ und „Armut“ schließen sich aus und werden doch zu einem Ausdruck verbunden.", "id": "c066", "prot": false}, {"fig": "oxymoron", "au": "Karoline von Günderode", "ti": "Liebe", "yr": "1799", "lines": ["Lebendiger Tod, im Einen sel’ges Leben"], "mark": ["Lebendiger Tod"], "also": ["antithese"], "ex": "„lebendig“ + „Tod“: zwei unvereinbare Vorstellungen in einer Wortgruppe.", "id": "c067", "prot": false}, {"fig": "paradoxon", "au": "Joseph von Eichendorff", "ti": "Frische Fahrt", "yr": "1810", "lines": ["Auf dem Strome will ich fahren,", "Von dem Glanze selig blind!"], "mark": ["Von dem Glanze selig blind!"], "also": ["symbol"], "ex": "Licht macht hier blind – und das macht selig. Der Widerspruch ist nur scheinbar: Das Ich ist so überwältigt, dass es nichts anderes mehr sieht.", "id": "c068", "prot": false}, {"fig": "paradoxon", "au": "Karoline von Günderode", "ti": "Liebe", "yr": "1799", "lines": ["In Zagheit Mut! in Freiheit doch gefangen."], "mark": ["in Freiheit doch gefangen"], "also": ["oxymoron", "antithese"], "ex": "Frei und gefangen zugleich – ein Scheinwiderspruch, der die Liebe als Bindung beschreibt, die man freiwillig eingeht.", "id": "c069", "prot": false}, {"fig": "paradoxon", "au": "Joseph von Eichendorff", "ti": "Wehmut", "yr": "1812", "lines": ["Doch heimlich Tränen dringen,", "Da wird das Herz mir frei."], "mark": ["Tränen dringen,", "Da wird das Herz mir frei."], "also": [], "ex": "Weinen befreit das Herz: scheinbar widersprüchlich, im Kern aber eine Einsicht über Trauer.", "id": "c070", "prot": false}, {"fig": "ironie", "au": "Heinrich Heine", "ti": "Wahrhaftig", "yr": "1817–21", "lines": ["Doch Lieder und Sterne und Blümelein,", "Und Äuglein und Mondglanz und Sonnenschein,", "Wie sehr das Zeug auch gefällt,", "So macht’s doch noch lang keine Welt."], "mark": ["Wie sehr das Zeug auch gefällt"], "also": [], "ex": "Die romantischen Motive werden abschätzig „das Zeug“ genannt: Heine meint nicht, was die schönen Bilder versprechen, sondern macht sich über sie lustig.", "id": "c071", "prot": false}, {"fig": "ironie", "au": "Heinrich Heine", "ti": "„Nun ist es Zeit, daß ich mit Verstand …“ (ohne Titel)", "yr": "1823–24", "lines": ["Mein Rittermantel hat goldig gestrahlt,", "Ich fühlte die feinsten Gefühle."], "mark": ["Ich fühlte die feinsten Gefühle."], "also": [], "ex": "Das Ich nennt seine Liebe rückblickend ein Theaterstück; die „feinsten Gefühle“ sind spöttisch gemeint.", "id": "c072", "prot": false}, {"fig": "ironie", "au": "Kurt Tucholsky", "ti": "Sie, zu ihm", "yr": "", "lines": ["Du bleibst sogar vor andern Frauen", "in gut gespieltem Gleichgewicht;", "man kann dir manchmal sogar trauen…", "aber zärtlich bist du nicht."], "mark": ["man kann dir manchmal sogar trauen…"], "also": [], "ex": "„manchmal sogar trauen“ klingt wie Lob, ist aber ein Vorwurf: Gemeint ist das Gegenteil.", "id": "c073", "prot": false}, {"fig": "hyperbel", "au": "Ricarda Huch", "ti": "„Was für ein Feuer, o was für ein Feuer …“ (ohne Titel)", "yr": "", "lines": ["Die Augen, die mich anschaun, sind zwei Kerzen,", "Die Lippen, die mich küssen, sind zwei Flammen,", "Die Sonne selbst halt ich an meinem Herzen."], "mark": ["Die Sonne selbst halt ich an meinem Herzen."], "also": ["metapher", "parallelismus"], "ex": "Die Sonne am Herzen halten – eine maßlose Übertreibung, die die Stärke der Liebe ausdrückt.", "id": "c074", "prot": false}, {"fig": "hyperbel", "au": "Joseph von Eichendorff", "ti": "Frische Fahrt", "yr": "1810", "lines": ["Tausend Stimmen lockend schlagen,", "Hoch Aurora flammend weht,"], "mark": ["Tausend Stimmen"], "also": ["personifikation"], "ex": "„Tausend Stimmen“: keine Zählung, sondern eine Übertreibung für überwältigende Fülle.", "id": "c075", "prot": false}, {"fig": "hyperbel", "au": "Ricarda Huch", "ti": "„Was für ein Feuer, o was für ein Feuer …“ (ohne Titel)", "yr": "", "lines": ["Schon setzt es meinen zarten Leib in Brand", "Und wächst an deiner Brust doch ungeheuer."], "mark": ["ungeheuer"], "also": ["metapher"], "ex": "Das Liebesfeuer „wächst ungeheuer“ – die Übertreibung steigert das Bild ins Maßlose.", "id": "c076", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Willkommen und Abschied", "yr": "1775", "fig": "alliteration", "lines": ["Aus deinen Blicken sprach dein Herz.", "In deinen Küssen, welche Liebe,", "O welche Wonne, welcher Schmerz!"], "mark": ["welche Wonne"], "also": ["antithese", "wiederholung"], "ex": "„welche Wonne“: zwei benachbarte Wörter mit gleichem Anlaut (W). Der Klang hebt das Glücksgefühl hervor – gleich danach folgt der Gegensatz „Schmerz“.", "id": "c077", "prot": false}, {"au": "Matthias Claudius", "ti": "Abendlied", "yr": "1782", "fig": "alliteration", "lines": ["Als eine stille Kammer,", "Wo ihr des Tages Jammer", "Verschlafen und vergessen sollt."], "mark": ["Verschlafen und vergessen"], "also": ["vergleich"], "ex": "„Verschlafen und vergessen“: gleicher Anlaut (v/f-Laut) verbindet die beiden Verben zu einem ruhigen, zusammengehörigen Klangpaar.", "id": "c078", "prot": false}, {"au": "Andreas Gryphius", "ti": "Es ist alles eitel", "yr": "1658", "fig": "anapher", "lines": ["Was dieser heute baut, reißt jener morgen ein:", "…", "Was itzund prächtig blüht, soll bald zertreten werden.", "Was itzt so pocht und trotzt, ist morgen Asch und Bein;"], "mark": ["Was"], "also": ["antithese", "metapher", "parallelismus"], "ex": "Drei Verse beginnen mit „Was …“. Die Anapher hämmert ein, dass alles Irdische vergeht.", "id": "c079", "prot": false}, {"au": "Andreas Gryphius", "ti": "Es ist alles eitel", "yr": "1658", "fig": "wiederholung", "lines": ["Du siehst, wohin du siehst, nur Eitelkeit auf Erden."], "mark": ["siehst", "siehst"], "also": [], "ex": "„siehst … siehst“: Das Verb kehrt im selben Vers wieder. Wohin man auch schaut – überall dasselbe.", "id": "c080", "prot": false}, {"au": "Heinrich Heine", "ti": "So hast du ganz und gar vergessen", "yr": "1827", "fig": "tautologie", "lines": ["So hast du ganz und gar vergessen,", "Daß ich so lang dein Herz besessen,"], "mark": ["ganz und gar"], "also": [], "ex": "„ganz“ und „gar“ bedeuten hier dasselbe. Die Doppelung verstärkt den Vorwurf: Sie hat restlos vergessen.", "id": "c081", "prot": false}, {"au": "Heinrich Heine", "ti": "Wenn ich in deine Augen seh’", "yr": "1823", "fig": "tautologie", "lines": ["Doch wenn ich küsse deinen Mund,", "So werd’ ich ganz und gar gesund."], "mark": ["ganz und gar"], "also": ["inversion"], "ex": "„ganz und gar“: zwei Wörter mit gleicher Bedeutung nebeneinander – die Heilung ist vollständig.", "id": "c082", "prot": false}, {"au": "Rainer Maria Rilke", "ti": "Herbsttag", "yr": "1906", "fig": "parallelismus", "lines": ["Wer jetzt kein Haus hat baut sich keines mehr.", "Wer jetzt allein ist wird es lange bleiben,"], "mark": ["Wer jetzt kein Haus hat baut sich keines mehr.", "Wer jetzt allein ist wird es lange bleiben,"], "also": ["anapher"], "ex": "Beide Verse sind gleich gebaut: „Wer jetzt …“ + Folge. Der gleiche Satzbau macht die Endgültigkeit spürbar.", "id": "c083", "prot": false}, {"au": "Heinrich Heine", "ti": "Wenn ich in deine Augen seh’", "yr": "1823", "fig": "parallelismus", "lines": ["Wenn ich in deine Augen seh’", "So schwindet all mein Leid und Weh;", "Doch wenn ich küsse deinen Mund,", "So werd’ ich ganz und gar gesund."], "mark": ["Wenn ich in deine Augen seh’", "Doch wenn ich küsse deinen Mund,"], "also": ["tautologie", "inversion"], "ex": "Zweimal derselbe Bau: „wenn …“ – „so …“. Die Parallele reiht die Wirkungen der Geliebten aneinander.", "id": "c084", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Willkommen und Abschied", "yr": "1827", "fig": "chiasmus", "lines": ["Und doch, welch Glück geliebt zu werden!", "Und lieben, Götter, welch ein Glück!"], "mark": ["welch Glück", "geliebt zu werden", "Und lieben", "welch ein Glück"], "also": ["antithese"], "ex": "Glück – geliebt werden / lieben – Glück: Die Satzglieder stehen über Kreuz (A B / B A). So werden Geliebtwerden und Lieben gleichgewichtig gespiegelt.", "id": "c085", "prot": false}, {"au": "Friedrich Schiller", "ti": "Wallensteins Tod (Versdrama)", "yr": "1799", "fig": "chiasmus", "lines": ["Eng ist die Welt und das Gehirn ist weit –"], "mark": ["Eng", "die Welt", "das Gehirn", "weit"], "also": ["antithese"], "ex": "Eng – Welt / Gehirn – weit: Adjektiv und Nomen stehen über Kreuz. Der Gegensatz von Denken und Wirklichkeit wird so zugespitzt.", "id": "c086", "prot": false}, {"au": "Friedrich Hölderlin", "ti": "Hälfte des Lebens", "yr": "1805", "fig": "inversion", "lines": ["Mit gelben Birnen hänget", "Und voll mit wilden Rosen", "Das Land in den See,"], "mark": ["Mit gelben Birnen hänget"], "also": [], "ex": "Üblich wäre „Das Land hängt mit gelben Birnen … in den See“. Das Subjekt „Das Land“ steht erst am Ende – das Bild der Fülle kommt zuerst.", "id": "c087", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Willkommen und Abschied", "yr": "1775", "fig": "inversion", "lines": ["Schon stund im Nebelkleid die Eiche,", "Ein aufgetürmter Riese, da,"], "mark": ["Schon stund im Nebelkleid die Eiche"], "also": ["metapher", "personifikation"], "ex": "Üblich wäre „Die Eiche stand schon im Nebelkleid da“. Die Umstellung rückt das unheimliche „Nebelkleid“ nach vorn.", "id": "c088", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Willkommen und Abschied", "yr": "1775", "fig": "ellipse", "lines": ["Der Abschied, wie bedrängt, wie trübe!"], "mark": ["Der Abschied, wie bedrängt, wie trübe!"], "also": ["wiederholung"], "ex": "Kein vollständiger Satz – das Verb fehlt. Die Ellipse wirkt wie ein Ausruf, der die Gefühle unmittelbar ausstößt.", "id": "c089", "prot": false}, {"au": "Andreas Gryphius", "ti": "Es ist alles eitel", "yr": "1658", "fig": "rhetorische_frage", "lines": ["Der hohen Taten Ruhm muß wie ein Traum vergehn.", "Soll denn das Spiel der Zeit, der leichte Mensch, bestehn?"], "mark": ["Soll denn das Spiel der Zeit, der leichte Mensch, bestehn?"], "also": ["vergleich", "metapher"], "ex": "Die Antwort steht fest: Nein. Die Frage behauptet, dass der Mensch vergänglich ist.", "id": "c090", "prot": false}, {"au": "Rainer Maria Rilke", "ti": "Der Panther", "yr": "1907", "fig": "vergleich", "lines": ["Der weiche Gang geschmeidig starker Schritte,", "der sich im allerkleinsten Kreise dreht,", "ist wie ein Tanz von Kraft um eine Mitte,"], "mark": ["wie ein Tanz von Kraft"], "also": [], "ex": "Der Gang des Panthers wird mit „wie“ mit einem Tanz verglichen: kraftvoll, aber im Kreis gefangen.", "id": "c091", "prot": false}, {"au": "Andreas Gryphius", "ti": "Es ist alles eitel", "yr": "1658", "fig": "vergleich", "lines": ["Der hohen Taten Ruhm muß wie ein Traum vergehn."], "mark": ["wie ein Traum"], "also": [], "ex": "Ruhm wird mit „wie“ an einen Traum gebunden: Er verfliegt.", "id": "c092", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Willkommen und Abschied", "yr": "1775", "fig": "vergleich", "lines": ["Mir schlug das Herz; geschwind zu Pferde,", "Und fort, wild, wie ein Held zur Schlacht!"], "mark": ["wie ein Held zur Schlacht"], "also": ["ellipse"], "ex": "Das Ich reitet „wie ein Held zur Schlacht“: Der Vergleich mit „wie“ zeigt Ungestüm und Entschlossenheit.", "id": "c093", "prot": false}, {"au": "Rainer Maria Rilke", "ti": "Der Panther", "yr": "1907", "fig": "metapher", "lines": ["Nur manchmal schiebt der Vorhang der Pupille", "sich lautlos auf –."], "mark": ["der Vorhang der Pupille"], "also": [], "ex": "Das Augenlid wird ohne Vergleichswort zum „Vorhang“ – ein übertragenes Bild.", "id": "c094", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Willkommen und Abschied", "yr": "1775", "fig": "metapher", "lines": ["Mein Geist war ein verzehrend Feuer,", "Mein ganzes Herz zerfloß in Glut."], "mark": ["ein verzehrend Feuer"], "also": ["parallelismus", "hyperbel"], "ex": "Der Geist „war“ ein Feuer – ohne „wie“: eine Metapher für glühende Leidenschaft.", "id": "c095", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Willkommen und Abschied", "yr": "1775", "fig": "personifikation", "lines": ["Der Abend wiegte schon die Erde,", "Und an den Bergen hing die Nacht;"], "mark": ["Der Abend wiegte schon die Erde"], "also": ["metapher"], "ex": "Der Abend „wiegt“ die Erde wie eine Mutter ihr Kind – er handelt wie ein Mensch.", "id": "c096", "prot": false}, {"au": "Friedrich Hölderlin", "ti": "Hälfte des Lebens", "yr": "1805", "fig": "personifikation", "lines": ["Die Mauern stehn", "Sprachlos und kalt, im Winde", "Klirren die Fahnen."], "mark": ["Sprachlos"], "also": [], "ex": "Mauern sind „sprachlos“ – als könnten sie sonst sprechen. Die Personifikation macht die Kälte des Winters menschlich spürbar.", "id": "c097", "prot": false}, {"au": "Joseph von Eichendorff", "ti": "Das zerbrochene Ringlein", "yr": "", "fig": "symbol", "lines": ["Sie hat mir Treu versprochen,", "Gab mir ein’n Ring dabei,", "Sie hat die Treu gebrochen,", "Mein Ringlein sprang entzwei."], "mark": ["Mein Ringlein sprang entzwei."], "also": ["parallelismus", "anapher"], "ex": "Der Ring steht für Treue. Dass er zerbricht, verweist auf die gebrochene Liebe.", "id": "c098", "prot": false}, {"au": "Heinrich Heine", "ti": "Ein Fichtenbaum steht einsam", "yr": "1823", "fig": "symbol", "lines": ["Ein Fichtenbaum steht einsam", "Im Norden auf kahler Höh’.", "…", "Er träumt von einer Palme,", "Die, fern im Morgenland,"], "mark": ["Ein Fichtenbaum", "einer Palme"], "also": ["personifikation", "antithese"], "ex": "Fichte und Palme stehen für zwei Liebende, die unerreichbar weit voneinander getrennt sind.", "id": "c099", "prot": false}, {"au": "Georg Trakl", "ti": "Traum des Bösen", "yr": "1913", "fig": "synaesthesie", "lines": ["Verhallend eines Gongs braungoldne Klänge –"], "mark": ["braungoldne Klänge"], "also": ["inversion"], "ex": "Klänge werden „braungolden“: Gehörtes bekommt eine Farbe.", "id": "c100", "prot": false}, {"au": "Joseph von Eichendorff", "ti": "Ständchen", "yr": "", "fig": "synaesthesie", "lines": ["Ach, den süßen Klang verführet", "Weit der buhlerische Wind,"], "mark": ["süßen Klang"], "also": ["personifikation", "inversion"], "ex": "Ein Klang wird „süß“ genannt: Geschmack und Gehör werden verbunden.", "id": "c101", "prot": false}, {"au": "Else Lasker-Schüler", "ti": "Ein alter Tibetteppich", "yr": "", "fig": "neologismus", "lines": ["Deine Seele, die die meine liebet,", "Ist verwirkt mit ihr im Teppichtibet."], "mark": ["Teppichtibet"], "also": ["inversion"], "ex": "„Teppichtibet“ ist neu gebildet – aus „Tibetteppich“ umgedreht. Teppich und Land verschmelzen zu einem Traumort.", "id": "c102", "prot": false}, {"au": "Heinrich Heine", "ti": "Abenddämmerung", "yr": "1825–26", "fig": "neologismus", "lines": ["Mit kleinen, horchenden Herzen", "Und neugierklugen Augen; –"], "mark": ["neugierklugen"], "also": ["personifikation"], "ex": "„neugierklug“ ist eine Wortneuschöpfung aus „neugierig“ und „klug“.", "id": "c103", "prot": false}, {"au": "Andreas Gryphius", "ti": "Es ist alles eitel", "yr": "1658", "fig": "antithese", "lines": ["Was dieser heute baut, reißt jener morgen ein:"], "mark": ["heute baut", "morgen ein"], "also": ["parallelismus"], "ex": "Bauen – einreißen, heute – morgen: Gegensätze stehen sich gegenüber und zeigen die Vergänglichkeit.", "id": "c104", "prot": false}, {"au": "Friedrich Hölderlin", "ti": "Hälfte des Lebens", "yr": "1805", "fig": "antithese", "lines": ["Mit gelben Birnen hänget", "Und voll mit wilden Rosen", "Das Land in den See,", "…", "Weh mir, wo nehm ich, wenn", "Es Winter ist, die Blumen,"], "mark": ["gelben Birnen", "wilden Rosen", "Winter"], "also": ["inversion", "rhetorische_frage"], "ex": "Die Fülle des Sommers (Birnen, Rosen) steht dem leeren Winter gegenüber – die zwei Strophen sind als Gegensatz gebaut.", "id": "c105", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Faust I (Abend)", "yr": "1808", "fig": "oxymoron", "lines": ["Willkommen, süßer Dämmerschein!", "Der du dies Heiligtum durchwebst.", "Ergreif mein Herz, du süße Liebespein!"], "mark": ["süße Liebespein"], "also": ["personifikation"], "ex": "„süß“ und „Pein“ (Qual) widersprechen sich. Das Oxymoron fasst zusammen, dass Verliebtsein schön ist und zugleich weh tut.", "id": "c106", "prot": false}, {"au": "Karoline von Günderode", "ti": "Liebe", "yr": "1799", "fig": "oxymoron", "lines": ["Genießend schmachten,", "Nie satt betrachten,"], "mark": ["Genießend schmachten"], "also": ["paradoxon"], "ex": "„genießen“ und „schmachten“ (leiden, sich sehnen) schließen sich aus und werden doch verbunden.", "id": "c107", "prot": false}, {"au": "Matthias Claudius", "ti": "Abendlied", "yr": "1782", "fig": "paradoxon", "lines": ["Seht ihr den Mond dort stehen? —", "Er ist nur halb zu sehen,", "Und ist doch rund und schön!"], "mark": ["Er ist nur halb zu sehen,", "Und ist doch rund und schön!"], "also": ["rhetorische_frage"], "ex": "Halb zu sehen und doch rund – scheinbar widersprüchlich. Gemeint ist: Was wir nicht sehen, existiert trotzdem.", "id": "c108", "prot": false}, {"au": "Heinrich Heine", "ti": "Wenn ich in deine Augen seh’", "yr": "1823", "fig": "paradoxon", "lines": ["Doch wenn du sprichst: ich liebe dich!", "So muß ich weinen bitterlich."], "mark": ["ich liebe dich!", "So muß ich weinen bitterlich."], "also": ["inversion"], "ex": "Ein Liebesgeständnis bringt das Ich zum Weinen – ein Scheinwiderspruch, der Zweifel an der Liebe andeutet.", "id": "c109", "prot": false}, {"au": "Christian Morgenstern", "ti": "Die unmögliche Tatsache", "yr": "1910", "fig": "ironie", "lines": ["Und er kommt zu dem Ergebnis:", "Nur ein Traum war das Erlebnis.", "Weil, so schließt er messerscharf,", "nicht sein kann, was nicht sein darf."], "mark": ["so schließt er messerscharf"], "also": ["parallelismus", "inversion"], "ex": "Palmström wurde überfahren – weil das Gesetz es verbietet, hält er den Unfall für einen Traum. „Messerscharf“ ist ironisch: Sein Schluss ist gerade nicht klug.", "id": "c110", "prot": false}, {"au": "Heinrich Heine", "ti": "Sie saßen und tranken am Teetisch", "yr": "1827", "fig": "ironie", "lines": ["Der Domherr öffnet den Mund weit:", "Die Liebe sei nicht zu roh,", "Sie schadet sonst der Gesundheit."], "mark": ["Sie schadet sonst der Gesundheit."], "also": [], "ex": "Die Liebe als Gesundheitsrisiko – Heine lässt die vornehme Gesellschaft so reden, dass sie sich selbst lächerlich macht.", "id": "c111", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Willkommen und Abschied", "yr": "1775", "fig": "hyperbel", "lines": ["Die Nacht schuf tausend Ungeheuer –", "Doch tausendfacher war mein Mut;"], "mark": ["tausend Ungeheuer", "tausendfacher war mein Mut"], "also": ["personifikation", "antithese"], "ex": "„tausend Ungeheuer“ und „tausendfacher Mut“ – maßlos übertrieben, um den Überschwang des Ichs zu zeigen.", "id": "c112", "prot": false}, {"au": "Rainer Maria Rilke", "ti": "Der Panther", "yr": "1907", "fig": "hyperbel", "lines": ["Ihm ist, als ob es tausend Stäbe gäbe", "und hinter tausend Stäben keine Welt."], "mark": ["tausend Stäbe", "tausend Stäben"], "also": ["vergleich", "wiederholung"], "ex": "„tausend Stäbe“: Die Übertreibung zeigt, wie der Käfig die ganze Wahrnehmung des Panthers ausfüllt.", "id": "c113", "prot": false}, {"au": "Theodor Fontane", "ti": "Ausgang", "yr": "", "fig": "euphemismus", "lines": ["Immer enger, leise, leise", "Ziehen sich die Lebenskreise,", "…", "Und ist nichts in Sicht geblieben,", "Als der letzte dunkle Punkt."], "mark": ["der letzte dunkle Punkt"], "also": ["wiederholung", "metapher"], "ex": "„der letzte dunkle Punkt“ umschreibt den Tod, ohne ihn zu nennen.", "id": "c114", "prot": false}, {"au": "Matthias Claudius", "ti": "Der Mensch", "yr": "1782", "fig": "euphemismus", "lines": ["Und alles dieses währet,", "Wenn’s hoch kommt, achtzig Jahr.", "Denn legt er sich zu seinen Vätern nieder,", "Und er kömmt nimmer wieder."], "mark": ["legt er sich zu seinen Vätern nieder"], "also": [], "ex": "„sich zu seinen Vätern niederlegen“ ist eine beschönigende Umschreibung für Sterben (aus der Bibelsprache).", "id": "c115", "prot": false}, {"au": "Matthias Claudius", "ti": "Abendlied", "yr": "1782", "fig": "euphemismus", "lines": ["Wollst endlich sonder Grämen", "Aus dieser Welt uns nehmen", "Durch einen sanften Tod!"], "mark": ["Aus dieser Welt uns nehmen"], "also": [], "ex": "„Aus dieser Welt nehmen“ umschreibt das Sterben schonend.", "id": "c116", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Faust. Der Tragödie erster Teil (Versdrama)", "yr": "1808", "fig": "klimax", "lines": ["Habe nun, ach! Philosophie,", "Juristerei und Medizin,", "Und leider auch Theologie!", "Durchaus studiert, mit heißem Bemühn."], "mark": ["Philosophie", "Juristerei und Medizin", "Und leider auch Theologie!"], "also": ["ellipse"], "ex": "Faust zählt seine Studienfächer bis zur damals „höchsten“, der Theologie, auf – die Reihe steigert sich, und „leider“ macht die Steigerung bitter.", "id": "c117", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Faust. Der Tragödie erster Teil (Versdrama)", "yr": "1808", "fig": "klimax", "lines": ["Heiße Magister, heiße Doktor gar,", "Und ziehe schon an die zehen Jahr,"], "mark": ["Heiße Magister, heiße Doktor gar,"], "also": ["wiederholung", "ellipse"], "ex": "Magister – Doktor „gar“: Die Titel steigern sich. Das „gar“ zeigt den Höhepunkt – und zugleich Fausts Spott über sich selbst.", "id": "c118", "prot": false}, {"au": "Friedrich Schiller", "ti": "Das Lied von der Glocke", "yr": "1800", "fig": "klimax", "lines": ["Gefährlich ist’s, den Leu zu wecken,", "Verderblich ist des Tigers Zahn;", "Jedoch der schrecklichste der Schrecken,", "Das ist der Mensch in seinem Wahn."], "mark": ["Gefährlich", "Verderblich", "der schrecklichste der Schrecken"], "also": ["parallelismus", "inversion"], "ex": "gefährlich – verderblich – der schrecklichste der Schrecken: Die Gefahr steigert sich vom Löwen über den Tiger bis zum Menschen, der am schlimmsten ist.", "id": "c119", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Der Zauberlehrling", "yr": "1797", "fig": "klimax", "lines": ["Und sie laufen! Naß und nässer", "Wird’s im Saal und auf den Stufen.", "Welch entsetzliches Gewässer!"], "mark": ["Naß und nässer"], "also": ["inversion", "hyperbel"], "ex": "„nass“ → „nässer“: Das Wort wird gesteigert, so wie das Wasser immer mehr wird. Die Klimax zeigt, wie dem Lehrling die Lage über den Kopf wächst.", "id": "c120", "prot": false}, {"au": "Heinrich Heine", "ti": "Ich hab’ im Traum’ geweinet", "yr": "1823", "fig": "klimax", "lines": ["Ich wachte auf und die Träne", "Floß noch von der Wange herab.", "…", "Ich wachte auf, und ich weinte", "Noch lange bitterlich.", "…", "Ich wachte auf, und noch immer", "Strömt meine Tränenflut."], "mark": ["die Träne", "ich weinte", "Strömt meine Tränenflut."], "also": ["anapher", "parallelismus", "hyperbel"], "ex": "Eine Träne – langes Weinen – eine „Tränenflut“: Über drei Strophen steigert sich der Schmerz.", "id": "c121", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Prometheus", "yr": "1789", "fig": "rhetorische_frage", "lines": ["Ich dich ehren? Wofür?", "Hast du die Schmerzen gelindert", "Je des Beladenen?", "Hast du die Tränen gestillet", "Je des Geängsteten?"], "mark": ["Hast du die Schmerzen gelindert", "Je des Beladenen?", "Hast du die Tränen gestillet", "Je des Geängsteten?"], "also": ["anapher", "parallelismus", "ellipse", "inversion"], "ex": "Prometheus erwartet keine Antwort von Zeus: Die Fragen behaupten, dass die Götter nie geholfen haben.", "id": "c122", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Prometheus", "yr": "1789", "fig": "rhetorische_frage", "lines": ["Wer half mir", "Wider der Titanen Übermut?", "Wer rettete vom Tode mich", "Von Sklaverei?"], "mark": ["Wer half mir", "Wider der Titanen Übermut?", "Wer rettete vom Tode mich", "Von Sklaverei?"], "also": ["anapher", "parallelismus", "inversion"], "ex": "Prometheus weiß die Antwort: niemand außer ihm selbst. Die Fragen sind versteckte Behauptungen gegen die Götter.", "id": "c123", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Faust. Der Tragödie erster Teil (Versdrama)", "yr": "1808", "fig": "chiasmus", "lines": ["Ach Gott! die Kunst ist lang;", "Und kurz ist unser Leben."], "mark": ["die Kunst", "lang", "kurz", "unser Leben"], "also": ["antithese"], "ex": "Kunst – lang / kurz – Leben: Die Satzglieder stehen über Kreuz (A B / B A). Die Spiegelung betont den Gegensatz von Kunst und Lebenszeit.", "id": "c124", "prot": false}, {"au": "Heinrich Heine", "ti": "Gedicht aus „Drei und dreißig Gedichte“", "yr": "", "fig": "tautologie", "lines": ["Braver Mann! Er schafft’ mir zu essen!", "Will es ihm nie und nimmer vergessen!"], "mark": ["nie und nimmer"], "also": ["ironie", "ellipse"], "ex": "„nie“ und „nimmer“ bedeuten dasselbe; die Doppelung beteuert übertrieben die Dankbarkeit.", "id": "c125", "prot": false}, {"au": "Matthias Claudius", "ti": "Der Tod und das Mädchen", "yr": "1775", "fig": "euphemismus", "lines": ["Gib deine Hand, du schön und zart Gebild!", "Bin Freund, und komme nicht, zu strafen.", "Sei gutes Muts! ich bin nicht wild,", "Sollst sanft in meinen Armen schlafen!"], "mark": ["Sollst sanft in meinen Armen schlafen!"], "also": ["personifikation"], "ex": "Hier spricht der Tod. Er nennt das Sterben „sanft schlafen“ – eine beschönigende Umschreibung.", "id": "c126", "prot": false}, {"au": "Ludwig Uhland", "ti": "Die Kapelle", "yr": "1815", "fig": "antithese", "lines": ["Droben stehet die Kapelle,", "Schauet still ins Tal hinab,", "Drunten singt bei Wies’ und Quelle", "Froh und hell der Hirtenknab’."], "mark": ["Droben", "Drunten"], "also": ["personifikation", "parallelismus", "inversion"], "ex": "Oben die Kapelle (Tod), unten der singende Hirtenknabe (Leben): Die Gegensätze werden einander gegenübergestellt.", "id": "c127", "prot": false}, {"au": "Heinrich Heine", "ti": "Sie saßen und tranken am Teetisch", "yr": "1827", "fig": "ironie", "lines": ["Sie saßen und tranken am Teetisch,", "Und sprachen von Liebe viel.", "Die Herren, die waren ästhetisch,", "Die Damen von zartem Gefühl."], "mark": ["Die Herren, die waren ästhetisch,", "Die Damen von zartem Gefühl."], "also": ["parallelismus", "ellipse"], "ex": "„ästhetisch“ und „von zartem Gefühl“ klingt wie Lob – gemeint ist Spott über eine Gesellschaft, die über Liebe nur redet.", "id": "c128", "prot": false}, {"au": "Heinrich Heine", "ti": "Allnächtlich im Traume seh’ ich dich", "yr": "1827", "fig": "neologismus", "lines": ["Aus deinen Augen schleichen sich", "Die Perlentränentröpfchen."], "mark": ["Perlentränentröpfchen"], "also": ["personifikation", "metapher"], "ex": "„Perlentränentröpfchen“ ist ein neu gebildetes Wort aus drei Teilen – fast zu süß, um ernst gemeint zu sein.", "id": "c129", "prot": false}, {"au": "Joseph von Eichendorff", "ti": "Ständchen", "yr": "", "fig": "metapher", "lines": ["Schlafe, Liebchen, weil’s auf Erden", "Nun so still und seltsam wird!", "Oben gehn die goldnen Herden,", "Für uns alle wacht der Hirt."], "mark": ["die goldnen Herden", "der Hirt"], "also": ["inversion", "symbol"], "ex": "Die Sterne werden ohne Vergleichswort zu „goldnen Herden“, Gott zum „Hirten“, der über alle wacht.", "id": "c130", "prot": false}, {"au": "Heinrich Heine", "ti": "Ich grolle nicht, und wenn das Herz auch bricht", "yr": "1827", "fig": "wiederholung", "lines": ["Ich grolle nicht, und wenn das Herz auch bricht,", "Ewig verlor’nes Lieb! ich grolle nicht."], "mark": ["Ich grolle nicht", "ich grolle nicht"], "also": ["paradoxon", "ironie"], "ex": "„ich grolle nicht“ steht am Anfang und am Ende: Die Wiederholung wirkt wie eine Beschwörung – und lässt zweifeln, ob es stimmt.", "id": "c131", "prot": false}, {"au": "Heinrich Heine", "ti": "Ich grolle nicht, und wenn das Herz auch bricht", "yr": "1827", "fig": "metapher", "lines": ["Wie du auch strahlst in Diamantenpracht,", "Es fällt kein Strahl in deines Herzens Nacht."], "mark": ["deines Herzens Nacht"], "also": ["antithese"], "ex": "Das Herz hat keine „Nacht“ – das Bild steht ohne Vergleichswort für innere Dunkelheit und Kälte.", "id": "c132", "prot": false}, {"au": "Heinrich Heine", "ti": "Ich will meine Seele tauchen", "yr": "1823", "fig": "synaesthesie", "lines": ["Ich will meine Seele tauchen", "In den Kelch der Lilie hinein;", "Die Lilie soll klingend hauchen", "Ein Lied von der Liebsten mein."], "mark": ["klingend hauchen"], "also": ["metapher", "personifikation", "inversion"], "ex": "„klingend hauchen“: Duft (Hauch) und Klang werden verbunden – zwei Sinne verschmelzen.", "id": "c133", "prot": false}, {"au": "Heinrich Heine", "ti": "Dein Angesicht so lieb und schön", "yr": "1823", "fig": "neologismus", "lines": ["Es ist so mild und engelgleich,", "Und doch so bleich, so schmerzenbleich."], "mark": ["schmerzenbleich"], "also": ["wiederholung", "klimax"], "ex": "„schmerzenbleich“ ist neu gebildet: Die Blässe kommt vom Schmerz.", "id": "c134", "prot": false}, {"au": "Heinrich Heine", "ti": "Dein Angesicht so lieb und schön", "yr": "1823", "fig": "personifikation", "lines": ["Und nur die Lippen, die sind rot;", "Bald aber küßt sie bleich der Tod."], "mark": ["küßt sie bleich der Tod"], "also": ["antithese", "inversion"], "ex": "Der Tod „küsst“ wie ein Mensch – ein unheimliches Bild für das Sterben.", "id": "c135", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Erlkönig", "yr": "1782", "fig": "wiederholung", "lines": ["Mein Vater, mein Vater, und hörest du nicht,", "Was Erlenkönig mir leise verspricht?"], "mark": ["Mein Vater, mein Vater"], "also": [], "ex": "„Mein Vater, mein Vater“: Die Wiederholung macht die wachsende Angst des Kindes hörbar.", "id": "c136", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Erlkönig", "yr": "1782", "fig": "parallelismus", "lines": ["Er hat den Knaben wohl in dem Arm,", "Er faßt ihn sicher, er hält ihn warm."], "mark": ["Er faßt ihn sicher", "er hält ihn warm"], "also": ["anapher"], "ex": "„Er faßt ihn sicher, er hält ihn warm“: zweimal gleicher Satzbau – Ausdruck von Geborgenheit (die am Ende trügt).", "id": "c137", "prot": false}, {"au": "Conrad Ferdinand Meyer", "ti": "Zwei Segel", "yr": "", "fig": "symbol", "lines": ["Zwei Segel erhellend", "Die tiefblaue Bucht!", "…", "Wie eins in den Winden", "Sich wölbt und bewegt,", "Wird auch das Empfinden", "Des andern erregt."], "mark": ["Zwei Segel"], "also": ["personifikation", "vergleich"], "ex": "Die zwei Segel stehen für zwei Liebende, die alles gemeinsam und im Gleichklang erleben.", "id": "c138", "prot": false}, {"au": "Kurt Tucholsky", "ti": "Sie, zu ihm", "yr": "", "fig": "parallelismus", "lines": ["Denn wer mehr liebt, der muß mehr leiden.", "Nein, zärtlich bist du nicht."], "mark": ["wer mehr liebt", "der muß mehr leiden"], "also": ["alliteration"], "ex": "„wer mehr liebt – der muß mehr leiden“: zwei gleich gebaute Satzteile. Die Parallele macht den Satz zur Lebensregel.", "id": "c139", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Freudvoll und leidvoll (Klärchens Lied aus „Egmont“)", "yr": "1788", "fig": "antithese", "lines": ["Freudvoll und leidvoll,", "Gedankenvoll sein,", "Langen und bangen", "In schwebender Pein,", "Himmelhoch jauchzend,", "Zum Tode betrübt,"], "mark": ["Himmelhoch jauchzend,", "Zum Tode betrübt,"], "also": ["hyperbel", "parallelismus", "ellipse"], "ex": "Höchste Freude und tiefste Trauer stehen direkt nebeneinander – die Liebe schwankt zwischen Extremen.", "id": "c140", "prot": false}, {"au": "Johann Wolfgang Goethe", "ti": "Wonne der Wehmut", "yr": "1776", "fig": "oxymoron", "lines": ["Wonne der Wehmut", "Trocknet nicht, trocknet nicht,", "Tränen der ewigen Liebe!"], "mark": ["Wonne der Wehmut"], "also": ["alliteration", "wiederholung"], "ex": "„Wonne“ (große Freude) und „Wehmut“ (Trauer) schließen sich eigentlich aus. Gemeint ist: Selbst das traurige Erinnern an die Liebe tut gut.", "id": "c141", "prot": false}, {"au": "Theodor Fontane", "ti": "Herr von Ribbeck auf Ribbeck im Havelland", "yr": "1889", "fig": "inversion", "lines": ["Herr von Ribbeck auf Ribbeck im Havelland,", "Ein Birnbaum in seinem Garten stand,"], "mark": ["Ein Birnbaum in seinem Garten stand"], "also": ["alliteration"], "ex": "Üblich wäre „In seinem Garten stand ein Birnbaum“. Das Verb rückt ans Versende – so entsteht der Reim Havelland / stand.", "id": "c142", "prot": false}, {"au": "Friedrich Schiller", "ti": "Das Lied von der Glocke", "yr": "1800", "fig": "metapher", "lines": ["Doch den sichern Bürger schrecket", "Nicht die Nacht,", "Die den Bösen gräßlich wecket,", "Denn das Auge des Gesetzes wacht."], "mark": ["das Auge des Gesetzes"], "also": ["personifikation", "inversion"], "ex": "Das Gesetz hat kein „Auge“ – das Bild steht für Kontrolle und Schutz durch die Ordnung.", "id": "c143", "prot": false}, {"au": "Joseph von Eichendorff", "ti": "Zwielicht", "yr": "1815", "fig": "personifikation", "lines": ["Dämmrung will die Flügel spreiten,", "Schaurig rühren sich die Bäume,"], "mark": ["Dämmrung will die Flügel spreiten"], "also": ["metapher", "inversion"], "ex": "Die Dämmerung „will“ ihre Flügel ausbreiten wie ein lebendes Wesen – die Nacht wirkt bedrohlich.", "id": "c144", "prot": false}, {"au": "Joseph von Eichendorff", "ti": "Zwielicht", "yr": "1815", "fig": "vergleich", "lines": ["Wolken zieh’n wie schwere Träume –", "Was will dieses Grau’n bedeuten?"], "mark": ["wie schwere Träume"], "also": ["rhetorische_frage"], "ex": "Die Wolken werden mit „wie“ mit schweren Träumen verglichen: bedrückend und unheimlich.", "id": "c145", "prot": false}, {"au": "Joseph von Eichendorff", "ti": "Abendlandschaft", "yr": "", "fig": "ellipse", "lines": ["Der Hirt bläst seine Weise,", "Von fern ein Schuß noch fällt,", "Die Wälder rauschen leise", "Und Ströme tief im Feld."], "mark": ["Und Ströme tief im Feld."], "also": ["inversion", "personifikation"], "ex": "„Und Ströme tief im Feld“: Das Verb fehlt (gemeint ist „rauschen“) – die Ellipse lässt das Bild leise ausklingen.", "id": "c146", "prot": false}, {"au": "Joseph von Eichendorff", "ti": "Lied aus „Aus dem Leben eines Taugenichts“", "yr": "1826", "fig": "antithese", "lines": ["Du Erd’ mit deinem Plunder,", "Ihr Fische samt der See,", "’S geht alles, alles unter,", "Wir aber in die Höh’!"], "mark": ["alles, alles unter,", "Wir aber in die Höh’!"], "also": ["wiederholung", "ellipse"], "ex": "Alles geht „unter“ – „wir aber in die Höh’“: Untergang und Aufstieg werden einander gegenübergestellt.", "id": "c147", "prot": false}, {"au": "Joseph von Eichendorff", "ti": "Der frohe Wandersmann", "yr": "1817", "fig": "klimax", "lines": ["Sie wissen nur von Kinderwiegen,", "Von Sorgen, Last und Not um Brot."], "mark": ["Sorgen, Last und Not"], "also": ["alliteration"], "ex": "Sorgen – Last – Not: Die Begriffe werden immer schwerer und steigern das Bild eines engen Lebens.", "id": "c148", "prot": false}, {"au": "Joseph von Eichendorff", "ti": "Wünschelrute", "yr": "1838", "fig": "inversion", "lines": ["Schläft ein Lied in allen Dingen,", "Die da träumen fort und fort,"], "mark": ["Schläft ein Lied in allen Dingen"], "also": ["personifikation", "metapher"], "ex": "Üblich wäre „Ein Lied schläft in allen Dingen“. Das Verb steht vorn und betont das Schlafende, Verborgene.", "id": "c149", "prot": false}, {"au": "Joseph von Eichendorff", "ti": "Nachtzauber", "yr": "1853", "fig": "hyperbel", "lines": ["Und rings hebt es an zu klagen,", "Ach, vor Liebe todeswund,"], "mark": ["todeswund"], "also": ["neologismus", "personifikation"], "ex": "„vor Liebe todeswund“: Liebe als tödliche Wunde – eine starke Übertreibung des Liebesschmerzes.", "id": "c150", "prot": false}, {"au": "Heinrich Heine", "ti": "Wie die Wellenschaumgeborene", "yr": "1827", "fig": "vergleich", "lines": ["Wie die Wellenschaumgeborene", "Strahlt mein Lieb im Schönheitsglanz,"], "mark": ["Wie die Wellenschaumgeborene"], "also": ["neologismus", "inversion"], "ex": "Die Geliebte strahlt „wie“ die aus dem Meerschaum geborene Göttin Venus – ein Vergleich mit dem Schönheitsideal schlechthin.", "id": "c151", "prot": false}, {"au": "Eduard Mörike", "ti": "Er ist’s", "yr": "1829", "fig": "metapher", "lines": ["Frühling läßt sein blaues Band", "Wieder flattern durch die Lüfte;"], "mark": ["sein blaues Band"], "also": ["personifikation"], "ex": "Das „blaue Band“ steht ohne Vergleichswort für den blauen Frühlingshimmel.", "id": "c152", "prot": false}, {"au": "Eduard Mörike", "ti": "Er ist’s", "yr": "1829", "fig": "personifikation", "lines": ["Veilchen träumen schon,", "Wollen balde kommen."], "mark": ["Veilchen träumen schon"], "also": ["ellipse"], "ex": "Veilchen „träumen“ und „wollen“ kommen – sie verhalten sich wie Menschen, die sich auf den Frühling freuen.", "id": "c153", "prot": false}, {"au": "Theodor Storm", "ti": "Oktoberlied", "yr": "1848", "fig": "metapher", "lines": ["Wir wollen uns den grauen Tag", "Vergolden, ja vergolden!"], "mark": ["Vergolden"], "also": ["wiederholung"], "ex": "Einen Tag kann man nicht wörtlich „vergolden“ – gemeint ist: ihn schön und froh machen.", "id": "c154", "prot": false}, {"au": "Rainer Maria Rilke", "ti": "Liebes-Lied", "yr": "1907", "fig": "rhetorische_frage", "lines": ["Auf welches Instrument sind wir gespannt?", "Und welcher Spieler hat uns in der Hand?", "O süßes Lied."], "mark": ["Auf welches Instrument sind wir gespannt?", "Und welcher Spieler hat uns in der Hand?"], "also": ["metapher", "parallelismus"], "ex": "Niemand erwartet eine Antwort: Die Fragen staunen darüber, dass die Liebe die beiden lenkt wie ein unsichtbarer Musiker.", "id": "c155", "prot": false}, {"au": "Theodor Fontane", "ti": "Ausgang", "yr": "", "fig": "alliteration", "lines": ["Schwindet hin, was prahlt und prunkt,", "Schwindet Hoffen, Hassen, Lieben,"], "mark": ["prahlt und prunkt", "Hoffen, Hassen"], "also": ["anapher", "klimax"], "ex": "„prahlt und prunkt“, „Hoffen, Hassen“: gleiche Anlaute verbinden die Wörter zu Klangpaaren.", "id": "c156", "prot": false}];
+
+const FIG = Object.fromEntries(FIGS.map(f => [f.id, f]));
+const GROUPNAME = Object.fromEntries(GROUPS.map(g => [g.id, g.name]));
+const MODES = [
+  {id:"n2d", name:"Name → Definition"},
+  {id:"d2n", name:"Definition → Name"},
+  {id:"b2n", name:"Alltagsbeispiel → Name"}
+];
+const MAXBOX = 3;
+const KEY = "versdetektei.v1";
+
+/* ---------- Speicher (nur lokal) ---------- */
+let S = load();
+function blank(){ return {box:{}, cases:{}, settings:{gross:false}, groupsT:[], groupsE:[], stufe:1}; }
+function load(){
+  try{ const raw = localStorage.getItem(KEY); if(raw){ const o = JSON.parse(raw); return Object.assign(blank(), o); } }catch(e){}
+  return blank();
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+/* ---------- Helfer ---------- */
+const $ = s => document.querySelector(s);
+const main = $("#main");
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function say(t){ const l=$("#live"); l.textContent=""; setTimeout(()=>{l.textContent=t;},40); }
+function figLabel(id){ const f=FIG[id]; return f.name; }
+function boxOf(fid, m){ return (S.box[fid] && S.box[fid][m]) || 0; }
+function setBox(fid, m, v){ S.box[fid] = S.box[fid] || {}; S.box[fid][m] = v; }
+function mastery(fid){ return Math.min(...MODES.map(m => boxOf(fid, m.id))); }
+function lupen(n){ return "🔍".repeat(n) + "·".repeat(MAXBOX-n); }
+function itemsFor(fid){ return ITEMS.filter(it => it.fig === fid && !it.streit); }
+const WERTUNG = ITEMS.filter(it => !it.streit); // Streitfälle zählen nicht in die Statistik
+
+function verseHTML(it, showMark){
+  const marks = showMark ? it.mark.slice() : [];
+  return '<div class="verse" lang="de">' + it.lines.map(l => {
+    if(l === "") return '<span class="gap" aria-hidden="true"></span>';
+    // alle Vorkommen der markierten Stellen finden (nur ganze Wörter), Überlappungen vermeiden
+    const isL = c => !!c && /[A-Za-zÄÖÜäöüß]/.test(c);
+    const ranges = [];
+    marks.forEach(m => {
+      let from = 0, idx;
+      while((idx = l.indexOf(m, from)) > -1){
+        const end = idx + m.length;
+        if(!isL(l[idx-1]) && !isL(l[end]) && !ranges.some(r => idx < r[1] && end > r[0])) ranges.push([idx, end]);
+        from = idx + 1;
+      }
+    });
+    ranges.sort((a,b) => a[0]-b[0]);
+    let h = "", pos = 0;
+    ranges.forEach(([a,b]) => { h += esc(l.slice(pos,a)) + "<mark>" + esc(l.slice(a,b)) + "</mark>"; pos = b; });
+    h += esc(l.slice(pos));
+    return '<span class="l">' + h + '</span>';
+  }).join("") + '</div>';
+}
+function srcHTML(it){
+  return '<p class="src">' + esc(it.au) + ': ' + esc(it.ti) + (it.yr ? ' (' + esc(it.yr) + ')' : '') + '</p>';
+}
+function catSay(html){
+  return '<div class="cat"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#kater"/></svg><div class="bubble">' + html + '</div></div>';
+}
+
+/* Ablenker: bevorzugt aus derselben Gruppe (das sind die echten Verwechslungen) */
+function distractors(correctId, exclude, n){
+  const g = FIG[correctId].group;
+  const bad = new Set([correctId, ...(exclude||[])]);
+  const same = shuffle(FIGS.filter(f => f.group === g && !bad.has(f.id)));
+  const other = shuffle(FIGS.filter(f => f.group !== g && !bad.has(f.id)));
+  const pick = same.slice(0, 2).concat(other).slice(0, n);
+  return pick.map(f => f.id);
+}
+
+/* ---------- Navigation ---------- */
+const VIEWS = {start:viewStart, handbuch:viewHandbuch, training:viewTrainingSetup, ermittlung:viewErmittlungSetup};
+function go(name, focus){
+  if(!VIEWS[name]) name = "start";
+  if(location.hash !== "#" + name) history.replaceState(null, "", "#" + name);
+  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-current", b.dataset.go === name ? "page" : "false"));
+  VIEWS[name]();
+  window.scrollTo(0,0);
+  if(focus !== false) main.focus({preventScroll:true});
+}
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-go]");
+  if(t){ e.preventDefault(); go(t.dataset.go); }
+});
+window.addEventListener("hashchange", () => go(location.hash.slice(1)));
+
+/* ---------- Start ---------- */
+function viewStart(){
+  const gesichert = FIGS.filter(f => mastery(f.id) >= MAXBOX).length;
+  const geloest = WERTUNG.filter(it => S.cases[it.id] === 1).length;
+  main.innerHTML = `
+  <h1>Willkommen in der Versdetektei</h1>
+  ${catSay(`<p>Ich bin <strong>Kater Jambus</strong>, Detektiv für Verse. In Gedichten verstecken sich rhetorische Figuren – wir spüren sie gemeinsam auf.</p>`)}
+  <div class="stats" style="margin-top:1rem">
+    <div class="stat"><span class="muted">Figuren gesichert</span><b>${gesichert} / ${FIGS.length}</b><div class="progress" aria-hidden="true"><span style="width:${100*gesichert/FIGS.length}%"></span></div></div>
+    <div class="stat"><span class="muted">Fälle beim ersten Versuch gelöst</span><b>${geloest} / ${WERTUNG.length}</b><div class="progress" aria-hidden="true"><span style="width:${100*geloest/WERTUNG.length}%"></span></div></div>
+  </div>
+  <h2>So gehst du vor</h2>
+  <ol>
+    <li><strong>Handbuch:</strong> Lies Name, Definition und Beispiel jeder Figur. Achte auf die Tipps zu Verwechslungen.</li>
+    <li><strong>Training:</strong> Lerne Namen und Definitionen wie Vokabeln. Eine Figur ist <em>gesichert</em>, wenn du sie in allen drei Richtungen dreimal hintereinander richtig hattest (🔍🔍🔍).</li>
+    <li><strong>Ermittlung:</strong> Erkenne die Figuren in echten Gedichtausschnitten und benenne sie.</li>
+  </ol>
+  <div class="row"><button class="btn" data-go="training">Training starten</button><button class="btn ghost" data-go="ermittlung">Zur Ermittlung</button></div>
+  <h2>Einstellungen</h2>
+  <div class="card">
+    <div class="row"><button class="chip" id="gross" aria-pressed="${S.settings.gross}">Große Schrift</button></div>
+    <p class="hint">Dein Fortschritt wird nur auf diesem Gerät im Browser gespeichert.</p>
+    <div class="row" id="resetbox"><button class="btn ghost" id="reset">Fortschritt löschen</button></div>
+  </div>`;
+  $("#gross").onclick = e => { S.settings.gross = !S.settings.gross; applySettings(); save(); e.target.setAttribute("aria-pressed", S.settings.gross); };
+  $("#reset").onclick = () => {
+    $("#resetbox").innerHTML = `<p><strong>Wirklich alles löschen?</strong></p><button class="btn" id="resetYes">Ja, löschen</button><button class="btn ghost" id="resetNo">Abbrechen</button>`;
+    $("#resetNo").focus();
+    $("#resetNo").onclick = () => go("start");
+    $("#resetYes").onclick = () => { const g=S.settings.gross; S = blank(); S.settings.gross=g; save(); say("Fortschritt gelöscht."); go("start"); };
+  };
+}
+function applySettings(){ document.documentElement.classList.toggle("gross", !!S.settings.gross); }
+
+/* ---------- Handbuch ---------- */
+function viewHandbuch(){
+  let h = `<h1>Handbuch</h1><p class="muted">${FIGS.length} Figuren in vier Gruppen. Tippe eine Figur an, um Definition, Beispiel und Belege aus den Gedichten zu sehen.</p>`;
+  GROUPS.forEach(g => {
+    h += `<h2>${esc(g.name)}</h2><div class="card">`;
+    FIGS.filter(f => f.group === g.id).forEach(f => {
+      const its = itemsFor(f.id);
+      h += `<details><summary><span>${esc(f.name)}, ${esc(f.art)}</span><span class="lupen" aria-label="Lernstand ${mastery(f.id)} von ${MAXBOX}">${lupen(mastery(f.id))}</span></summary>
+      <dl class="fig">
+        <dt>Definition</dt><dd>${esc(f.def)}</dd>
+        <dt>Alltagsbeispiel</dt><dd>${esc(f.bsp)}</dd>
+        <dt>Nicht verwechseln</dt><dd>${esc(f.tip)}</dd>
+        <dt>Belege aus den Gedichten</dt>
+        <dd>${its.length ? its.slice(0,2).map(it => verseHTML(it, true) + srcHTML(it)).join("") : '<span class="muted">In den Gedichtsammlungen ist dafür (noch) kein eindeutiger Beleg hinterlegt.</span>'}</dd>
+      </dl></details>`;
+    });
+    h += `</div>`;
+  });
+  main.innerHTML = h;
+}
+
+/* ---------- Gruppenwahl (gemeinsam) ---------- */
+function groupChips(key){
+  const sel = S[key];
+  return `<div class="chips" role="group" aria-label="Gruppen auswählen">` +
+    `<button class="chip" data-g="" aria-pressed="${sel.length===0}">Alle Gruppen</button>` +
+    GROUPS.map(g => `<button class="chip" data-g="${g.id}" aria-pressed="${sel.includes(g.id)}">${esc(g.name)}</button>`).join("") + `</div>`;
+}
+function bindChips(key, rerender){
+  main.querySelectorAll("[data-g]").forEach(b => b.onclick = () => {
+    const g = b.dataset.g;
+    if(!g) S[key] = [];
+    else { const i = S[key].indexOf(g); if(i>-1) S[key].splice(i,1); else S[key].push(g); if(S[key].length===GROUPS.length) S[key]=[]; }
+    save(); rerender(); const nb = main.querySelector(`[data-g="${g}"]`); if(nb) nb.focus();
+  });
+}
+function figsIn(key){ return FIGS.filter(f => S[key].length === 0 || S[key].includes(f.group)); }
+
+/* ---------- Training (Vokabelprinzip) ---------- */
+let T = null;
+function viewTrainingSetup(){
+  const figs = figsIn("groupsT");
+  const ges = figs.filter(f => mastery(f.id) >= MAXBOX).length;
+  main.innerHTML = `<h1>Training</h1>
+  <p>Namen und Definitionen lernen wie Vokabeln. Abgefragt werden vor allem die Figuren, die noch nicht sitzen.</p>
+  <h2>Welche Gruppen?</h2>${groupChips("groupsT")}
+  <p class="muted">${figs.length} Figuren ausgewählt, davon ${ges} gesichert.</p>
+  <div class="row"><button class="btn" id="startT">10 Fragen starten</button></div>`;
+  bindChips("groupsT", viewTrainingSetup);
+  $("#startT").onclick = startTraining;
+}
+function pickTrainingQ(figs, last){
+  // Gewichtung: je niedriger die Box, desto häufiger
+  const pool = [];
+  figs.forEach(f => MODES.forEach(m => {
+    const b = boxOf(f.id, m.id);
+    const w = [8,4,2,1][b];
+    for(let i=0;i<w;i++) pool.push({fid:f.id, mode:m.id});
+  }));
+  let q, tries = 0;
+  do { q = pool[Math.floor(Math.random()*pool.length)]; tries++; } while(last && q.fid === last.fid && tries < 20);
+  return q;
+}
+function startTraining(){
+  const figs = figsIn("groupsT");
+  T = {figs, n:0, total:10, right:0, last:null, wrong:[]};
+  nextTraining();
+}
+function nextTraining(){
+  if(T.n >= T.total) return endTraining();
+  const q = pickTrainingQ(T.figs, T.last); T.last = q; T.n++;
+  const f = FIG[q.fid];
+  const opts = shuffle([q.fid, ...distractors(q.fid, [], 3)]);
+  let prompt, optText;
+  if(q.mode === "n2d"){ prompt = `Was bedeutet <strong>${esc(f.name)}</strong>?`; optText = id => esc(FIG[id].def); }
+  else if(q.mode === "d2n"){ prompt = `Welche Figur ist gemeint?<br><span style="font-weight:400">„${esc(f.def)}“</span>`; optText = id => esc(FIG[id].name); }
+  else { prompt = `Welche Figur steckt in diesem Beispiel?<br><span style="font-weight:400">${esc(f.bsp)}</span>`; optText = id => esc(FIG[id].name); }
+  main.innerHTML = `<p class="muted">Training · Frage ${T.n} von ${T.total} · ${MODES.find(m=>m.id===q.mode).name}</p>
+  <div class="progress" aria-hidden="true"><span style="width:${100*(T.n-1)/T.total}%"></span></div>
+  <h1 class="prompt" id="q">${prompt}</h1>
+  <ul class="opts ${q.mode==="n2d"?"":"two"}" aria-labelledby="q">${opts.map((id,i)=>`<li><button class="opt" data-id="${id}"><span class="k" aria-hidden="true">${i+1}</span><span>${optText(id)}</span></button></li>`).join("")}</ul>
+  <div id="fb"></div>`;
+  answerHandler((chosen, buttons) => {
+    const ok = chosen === q.fid;
+    const b = boxOf(q.fid, q.mode);
+    setBox(q.fid, q.mode, ok ? Math.min(MAXBOX, b+1) : 0);
+    if(ok) T.right++; else T.wrong.push(q.fid);
+    save();
+    markButtons(buttons, q.fid, chosen);
+    let fb = ok
+      ? `<div class="feedback ok"><h3>Richtig!</h3><p><strong>${esc(f.name)}</strong>: ${esc(f.def)}</p><p class="hint">Lernstand: ${lupen(boxOf(q.fid,q.mode))} in dieser Richtung</p></div>`
+      : `<div class="feedback no"><h3>Noch nicht.</h3><p>Richtig ist <strong>${esc(f.name)}</strong>: ${esc(f.def)}</p>
+         <p>Du hast <strong>${esc(FIG[chosen].name)}</strong> gewählt: ${esc(FIG[chosen].def)}</p><p class="hint"><strong>Tipp:</strong> ${esc(f.tip)}</p></div>`;
+    $("#fb").innerHTML = fb + `<button class="btn" id="weiter">${T.n>=T.total?"Auswertung":"Weiter"}</button>`;
+    say(ok ? "Richtig." : "Falsch. Richtig ist " + f.name + ".");
+    $("#weiter").onclick = nextTraining; $("#weiter").focus();
+  });
+}
+function endTraining(){
+  const wrong = [...new Set(T.wrong)];
+  main.innerHTML = `<h1>Auswertung</h1>
+  ${catSay(`<p>${T.right} von ${T.total} richtig. ${T.right===T.total?"Lückenlose Beweisführung!":T.right>=7?"Gute Spur – weiter so.":"Da lohnt sich noch ein Blick ins Handbuch."}</p>`)}
+  ${wrong.length?`<h2>Noch einmal ansehen</h2><div class="card">${wrong.map(id=>`<p><strong>${esc(FIG[id].name)}</strong>: ${esc(FIG[id].def)}<br><span class="hint">${esc(FIG[id].tip)}</span></p>`).join("")}</div>`:""}
+  <div class="row"><button class="btn" id="again">Nächste Runde</button><button class="btn ghost" data-go="ermittlung">Zur Ermittlung</button></div>`;
+  $("#again").onclick = startTraining;
+  main.focus();
+}
+
+/* ---------- Ermittlung (Figuren in Gedichten erkennen) ---------- */
+let E = null;
+function viewErmittlungSetup(){
+  const its = ITEMS.filter(it => S.groupsE.length===0 || S.groupsE.includes(FIG[it.fig].group));
+  main.innerHTML = `<h1>Ermittlung</h1>
+  <p>Echte Ausschnitte aus Gedichten: Welche Figur steckt darin?</p>
+  <h2>Schwierigkeit</h2>
+  <div class="chips" role="group" aria-label="Schwierigkeit">
+    <button class="chip" data-st="1" aria-pressed="${S.stufe===1}">Stufe 1: Spur markiert</button>
+    <button class="chip" data-st="2" aria-pressed="${S.stufe===2}">Stufe 2: ohne Markierung</button>
+  </div>
+  <p class="hint">${S.stufe===1?"Die entscheidende Stelle ist hervorgehoben.":"Du suchst die Stelle selbst. Mit der Lupe kannst du sie dir zeigen lassen."}</p>
+  <h2>Welche Gruppen?</h2>${groupChips("groupsE")}
+  <p class="muted">${its.length} Fälle verfügbar.</p>
+  <div class="row"><button class="btn" id="startE" ${its.length?"":"disabled"}>8 Fälle starten</button></div>`;
+  bindChips("groupsE", viewErmittlungSetup);
+  main.querySelectorAll("[data-st]").forEach(b => b.onclick = () => { S.stufe = +b.dataset.st; save(); viewErmittlungSetup(); main.querySelector(`[data-st="${S.stufe}"]`).focus(); });
+  $("#startE").onclick = () => startErmittlung(its);
+}
+function startErmittlung(its){
+  // ungelöste Fälle zuerst, dann der Rest; möglichst verschiedene Figuren
+  const unsolved = shuffle(its.filter(it => S.cases[it.id] !== 1));
+  const solved = shuffle(its.filter(it => S.cases[it.id] === 1));
+  const seen = new Set(), list = [];
+  [...unsolved, ...solved].forEach(it => { if(list.length<8 && !seen.has(it.fig)){ list.push(it); seen.add(it.fig); } });
+  [...unsolved, ...solved].forEach(it => { if(list.length<8 && !list.includes(it)) list.push(it); });
+  E = {list, n:0, right:0, wrong:[], streit:0};
+  nextCase();
+}
+function nextCase(){
+  if(E.n >= E.list.length) return endErmittlung();
+  const it = E.list[E.n]; E.n++;
+  const opts = shuffle([it.fig, ...distractors(it.fig, it.also, 3)]);
+  const showMark = S.stufe === 1;
+  main.innerHTML = `<p class="muted">Ermittlung · Fall ${E.n} von ${E.list.length} · Stufe ${S.stufe}</p>
+  <div class="progress" aria-hidden="true"><span style="width:${100*(E.n-1)/E.list.length}%"></span></div>
+  <h1 class="prompt" id="q">${showMark?"Welche Figur steckt in der markierten Stelle?":"Welche Figur steckt in diesem Ausschnitt?"}</h1>
+  <div id="vers">${verseHTML(it, showMark)}</div>${srcHTML(it)}
+  ${showMark?"":`<button class="btn ghost" id="lupe">🔍 Spur zeigen</button>`}
+  <ul class="opts two" aria-labelledby="q">${opts.map((id,i)=>`<li><button class="opt" data-id="${id}"><span class="k" aria-hidden="true">${i+1}</span><span>${esc(FIG[id].name)}</span></button></li>`).join("")}</ul>
+  <div id="fb"></div>`;
+  let usedHint = false;
+  if(!showMark) $("#lupe").onclick = () => { usedHint = true; $("#vers").innerHTML = verseHTML(it, true); $("#lupe").disabled = true; say("Die Stelle ist jetzt markiert."); };
+  answerHandler((chosen, buttons) => {
+    const ok = chosen === it.fig;
+    if(it.streit){ E.streit++; }
+    else {
+      if(S.cases[it.id] === undefined) S.cases[it.id] = (ok && !usedHint) ? 1 : 0;
+      else if(ok && !usedHint) S.cases[it.id] = 1;
+      if(ok) E.right++; else E.wrong.push(it.fig);
+    }
+    save();
+    markButtons(buttons, it.fig, chosen);
+    $("#vers").innerHTML = verseHTML(it, true);
+    if($("#lupe")) $("#lupe").remove();
+    const f = FIG[it.fig];
+    const also = it.also.filter(a => FIG[a]).map(a => FIG[a].name);
+    const streit = it.streit ? `<p class="warn"><strong>Streitfall – zählt nicht in die Wertung.</strong> ${esc(it.streit)} Begründet eure Lösung im Unterricht.</p>` : "";
+    let fb = `<div class="feedback ${ok?"ok":"no"}"><h3>${ok?(usedHint?"Richtig – mit Lupe.":"Richtig!"):(it.streit?"Vorgesehen war eine andere Lösung.":"Noch nicht.")}</h3>
+      ${streit}
+      ${ok?"":`<p>Gesucht war <strong>${esc(f.name)}</strong>.</p>`}
+      <p>${esc(it.ex)}</p>
+      ${ok?"":`<p>Du hast <strong>${esc(FIG[chosen].name)}</strong> gewählt: ${esc(FIG[chosen].def)}</p><p class="hint"><strong>Tipp:</strong> ${esc(f.tip)}</p>`}
+      ${also.length?`<p class="hint"><strong>Weitere Spuren im Ausschnitt:</strong> ${esc(also.join(", "))}</p>`:""}
+    </div>`;
+    $("#fb").innerHTML = fb + `<button class="btn" id="weiter">${E.n>=E.list.length?"Auswertung":"Nächster Fall"}</button>`;
+    say(ok ? "Richtig." : "Falsch. Gesucht war " + f.name + ".");
+    $("#weiter").onclick = nextCase; $("#weiter").focus();
+  });
+}
+function endErmittlung(){
+  const wrong = [...new Set(E.wrong)];
+  main.innerHTML = `<h1>Fallbericht</h1>
+  ${catSay(`<p>${E.right} von ${E.list.length - E.streit} Fällen gelöst${E.streit?` (dazu ${E.streit} ${E.streit>1?"Streitfälle":"Streitfall"} ohne Wertung)`:""}. ${E.right===E.list.length-E.streit?"Lückenlos ermittelt – ich bin beeindruckt.":"Jede falsche Spur zeigt, was du noch üben kannst."}</p>`)}
+  ${wrong.length?`<h2>Diese Figuren noch einmal üben</h2><div class="card">${wrong.map(id=>`<p><strong>${esc(FIG[id].name)}</strong>: ${esc(FIG[id].def)}<br><span class="hint">${esc(FIG[id].tip)}</span></p>`).join("")}</div>`:""}
+  <div class="row"><button class="btn" id="againE">Neue Fälle</button><button class="btn ghost" data-go="training">Zum Training</button></div>`;
+  $("#againE").onclick = () => viewErmittlungSetup();
+  main.focus();
+}
+
+/* ---------- Antworten (Maus, Touch, Tasten 1–4) ---------- */
+let keyHandler = null;
+function answerHandler(cb){
+  const buttons = [...main.querySelectorAll(".opt")];
+  let done = false;
+  const fire = btn => { if(done) return; done = true; buttons.forEach(b => b.disabled = true); document.removeEventListener("keydown", keyHandler); cb(btn.dataset.id, buttons); };
+  buttons.forEach(b => b.onclick = () => fire(b));
+  if(keyHandler) document.removeEventListener("keydown", keyHandler);
+  keyHandler = e => {
+    if(e.altKey || e.ctrlKey || e.metaKey) return;
+    const n = parseInt(e.key, 10);
+    if(n >= 1 && n <= buttons.length){ e.preventDefault(); fire(buttons[n-1]); }
+  };
+  document.addEventListener("keydown", keyHandler);
+}
+function markButtons(buttons, correct, chosen){
+  buttons.forEach(b => {
+    if(b.dataset.id === correct){ b.classList.add("richtig"); b.insertAdjacentHTML("beforeend", '<span class="tag">✓ richtig</span>'); }
+    else if(b.dataset.id === chosen){ b.classList.add("falsch"); b.insertAdjacentHTML("beforeend", '<span class="tag">✗ deine Wahl</span>'); }
+  });
+}
+
+/* ---------- Fußzeile ---------- */
+$("#footer").innerHTML = FASSUNG === "teams"
+  ? `<p class="warn"><strong>Teams-Fassung:</strong> Enthält Ausschnitte urheberrechtlich geschützter Gedichte. Nur zur Nutzung im Kurs (§ 60a UrhG) – bitte nicht öffentlich weitergeben oder hochladen.</p>`
+  : `<p>Öffentliche Fassung: Alle Gedichtausschnitte stammen aus gemeinfreien Texten.</p>`;
+$("#footer").innerHTML += `<p>Die Versdetektei · Rhetorische Figuren in Gedichten · Jg. 10/EF · Speichert nur lokal im Browser, keine Server, keine Tracker.</p>`;
+
+applySettings();
+go(location.hash.slice(1) || "start", false);
+/* Offline-Cache für die installierte App (nur über https, z. B. GitHub Pages) */
+if("serviceWorker" in navigator && location.protocol === "https:"){
+  window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+}
+</script>
+</body>
+</html>
